@@ -1,0 +1,26 @@
+APPLICATION_ID: cdmi-demo
+service_description:
+  name: demo
+  version: 0.0.1
+  properties:
+    allowCrossApp: false
+cse:
+  service:
+    registry:
+      address: https://cse.cn-north-1.myhwclouds.com:443
+      instance:
+        watch: false
+  config:
+    client:
+      serverUri: https://cse.cn-north-1.myhwclouds.com:443
+      refreshMode: 1
+      refresh_interval: 5000
+  monitor:
+    client:
+      serverUri: https://cse.cn-north-1.myhwclouds.com:443
+  rest:
+    address: 0.0.0.0:8080
+  credentials:
+    accessKey: 0WI5YFVKR8GVPTMDTAOE
+    secretKey: LtCUYoVxJIFh3rs8s3WMHj9p7clD8dTRTc4hRXM8
+    akskCustomCipher: default
