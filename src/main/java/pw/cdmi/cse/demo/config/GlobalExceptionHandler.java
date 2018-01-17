@@ -25,6 +25,7 @@ public class GlobalExceptionHandler {
         errorInfo.put("path", req.getRequestURI());
         errorInfo.put("timestamp", (new Date().getTime()));
         errorInfo.put("status", HttpStatus.NOT_FOUND.value());
+        System.out.println("GlobalExceptionHandler:"+messageSourceService.getMessage("sys.error.notfound"));
         errorInfo.put("error", messageSourceService.getMessage("sys.error.notfound"));
         errorInfo.put("message", e.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorInfo);
@@ -32,6 +33,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(value={Exception.class})
     public ResponseEntity serverErrorExceptionHandler(HttpServletRequest req, Exception e) {
+        System.out.println("GlobalExceptionHandler:"+messageSourceService.getMessage("sys.error.notfound"));
         Map<String, Object> errorInfo = new HashMap<>();
         errorInfo.put("timestamp", (new Date().getTime()));
         errorInfo.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
