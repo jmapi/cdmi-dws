@@ -1,4 +1,4 @@
-package pw.cdmi.cse.demo.rs;
+package pw.cdmi.cse.demo.jersey.rs;
 
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;

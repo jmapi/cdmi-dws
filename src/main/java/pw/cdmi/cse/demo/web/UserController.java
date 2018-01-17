@@ -65,6 +65,9 @@ public class UserController {
      */
     @PutMapping
     public Result update(@RequestBody User user) {
+        if(!userRepository.exists(user.getId())){
+            throw new NotFoundException();
+        }
         userRepository.save(user);
         return Result.ok(messageSourceService.getMessage("sys.info.updateok"));
     }
