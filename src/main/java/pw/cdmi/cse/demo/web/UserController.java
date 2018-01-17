@@ -1,27 +1,23 @@
 package pw.cdmi.cse.demo.web;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
-import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pw.cdmi.cse.demo.common.MessageSourceService;
 import pw.cdmi.cse.demo.exception.NotFoundException;
+import pw.cdmi.cse.demo.model.Result;
 import pw.cdmi.cse.demo.model.User;
 import pw.cdmi.cse.demo.repository.UserRepository;
 
 import javax.inject.Inject;
-import java.util.Locale;
 
 @RestController
 @RequestMapping("/user")
 public class UserController {
 
     @Inject
-    private MessageSource messageSource;
-
-    private Locale locale = LocaleContextHolder.getLocale();
+    private MessageSourceService messageSourceService;
 
     @Inject
     private UserRepository userRepository;
@@ -32,9 +28,9 @@ public class UserController {
      * @return
      */
     @PostMapping
-    public ResponseEntity add(@RequestBody User user) {
+    public Result add(@RequestBody User user) {
         userRepository.save(user);
-        return ResponseEntity.ok().build();
+        return Result.ok(messageSourceService.getMessage("sys.info.addok"));
     }
 
     /**
@@ -43,12 +39,12 @@ public class UserController {
      * @return
      */
     @GetMapping("/{id}")
-    public ResponseEntity get(@PathVariable Long id) {
+    public User get(@PathVariable Long id) {
         User user = userRepository.findOne(id);
         if(user == null){
-           throw new NotFoundException(messageSource.getMessage("sys.error.notfound", null, locale));
+           throw new NotFoundException(messageSourceService.getMessage("sys.error.notfound"));
         }
-        return ResponseEntity.ok().build();
+        return user;
     }
 
     /**
@@ -57,9 +53,9 @@ public class UserController {
      * @return
      */
     @DeleteMapping("/{id}")
-    public ResponseEntity delete(@PathVariable Long id) {
+    public Result delete(@PathVariable Long id) {
         userRepository.delete(id);
-        return ResponseEntity.ok().build();
+        return Result.ok(messageSourceService.getMessage("sys.info.deleteok"));
     }
 
     /**
@@ -68,9 +64,9 @@ public class UserController {
      * @return
      */
     @PutMapping
-    public ResponseEntity update(@RequestBody User user) {
+    public Result update(@RequestBody User user) {
         userRepository.save(user);
-        return ResponseEntity.ok().build();
+        return Result.ok(messageSourceService.getMessage("sys.info.updateok"));
     }
 
     /**
@@ -82,9 +78,9 @@ public class UserController {
      * @return
      */
     @GetMapping
-    public ResponseEntity list(int page, int size, String orderDirection, String orderField) {
+    public Page<User> list(int page, int size, String orderDirection, String orderField) {
         PageRequest pageRequest = new PageRequest(page, size, Sort.Direction.fromString(orderDirection), orderField);
-        return ResponseEntity.ok(userRepository.findAll(pageRequest));
+        return userRepository.findAll(pageRequest);
     }
 
 }

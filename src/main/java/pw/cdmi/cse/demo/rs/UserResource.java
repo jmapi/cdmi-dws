@@ -1,9 +1,12 @@
 package pw.cdmi.cse.demo.rs;
 
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
+import pw.cdmi.cse.demo.common.MessageSourceService;
+import pw.cdmi.cse.demo.model.Result;
 import pw.cdmi.cse.demo.model.User;
 import pw.cdmi.cse.demo.repository.UserRepository;
 
@@ -17,7 +20,8 @@ import javax.ws.rs.core.Response;
 public class UserResource {
     @Inject
     private UserRepository userRepository;
-
+    @Inject
+    private MessageSourceService messageSourceService;
     /**
      * 查询单个用户
      * @param id
@@ -26,12 +30,12 @@ public class UserResource {
     @GET
     @Path("{id}")
     @Produces({MediaType.APPLICATION_JSON})
-    public Response get(@PathParam("id") Long id) {
+    public User get(@PathParam("id") Long id) {
         User user = userRepository.findOne(id);
         if(user == null){
-            throw new NotFoundException("用户不存在");
+            throw new NotFoundException(messageSourceService.getMessage("sys.error.notfound"));
         }
-        return Response.ok(user).build();
+        return user;
     }
 
     /**
@@ -42,9 +46,9 @@ public class UserResource {
     @POST
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
-    public Response add(User user) {
+    public Result add(User user) {
         userRepository.save(user);
-        return Response.ok().build();
+        return Result.ok(messageSourceService.getMessage("sys.info.addok"));
     }
 
     /**
@@ -55,13 +59,13 @@ public class UserResource {
     @DELETE
     @Path("{id}")
     @Produces({MediaType.APPLICATION_JSON})
-    public Response delete(@PathParam("id") Long id) {
+    public Result delete(@PathParam("id") Long id) {
         try {
             userRepository.delete(id);
         } catch (EmptyResultDataAccessException e) {
             throw new NotFoundException();
         }
-        return Response.ok().build();
+        return Result.ok(messageSourceService.getMessage("sys.info.deleteok"));
     }
 
     /**
@@ -71,12 +75,12 @@ public class UserResource {
      */
     @PUT
     @Produces({MediaType.APPLICATION_JSON})
-    public Response update(User user) {
+    public Result update(User user) {
         if(!userRepository.exists(user.getId())){
             throw new NotFoundException();
         }
         userRepository.save(user);
-        return Response.ok().build();
+        return Result.ok(messageSourceService.getMessage("sys.info.updateok"));
     }
 
     /**
@@ -89,12 +93,12 @@ public class UserResource {
      */
     @GET
     @Produces({MediaType.APPLICATION_JSON})
-    public Response list(@QueryParam("page") int page,
+    public Page<User> list(@QueryParam("page") int page,
                            @QueryParam("size") int size,
                            @QueryParam("orderDirection") String orderDirection,
                            @QueryParam("orderField") String orderField) {
         PageRequest pageRequest = new PageRequest(page, size, Sort.Direction.fromString(orderDirection), orderField);
-        return Response.ok(userRepository.findAll(pageRequest)).build();
+        return userRepository.findAll(pageRequest);
     }
 
 }
