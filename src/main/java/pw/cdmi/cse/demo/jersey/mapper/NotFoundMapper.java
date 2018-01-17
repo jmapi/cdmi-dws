@@ -1,4 +1,4 @@
-package pw.cdmi.cse.demo.rs.mapper;
+package pw.cdmi.cse.demo.jersey.mapper;
 
 import org.springframework.http.HttpStatus;
 import pw.cdmi.cse.demo.common.MessageSourceService;
