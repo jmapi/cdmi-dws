@@ -33,6 +33,11 @@ spring:
   data:
     mongodb:
       uri: mongodb://test:123@localhost:27017/test
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: root
+    password: 123
   jpa:
     show-sql: true
     hibernate:
