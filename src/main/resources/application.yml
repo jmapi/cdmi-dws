@@ -30,6 +30,9 @@ spring:
       max-wait: -1
       max-idle: 8
       min-idle: 0
+  data:
+    mongodb:
+      uri: mongodb://test:123@localhost:27017/test
   jpa:
     show-sql: true
     hibernate:
