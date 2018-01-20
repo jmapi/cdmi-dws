@@ -1,6 +1,6 @@
-APPLICATION_ID: cdmi-demo
+APPLICATION_ID: cdmi-demo-app
 service_description:
-  name: demo
+  name: cdmi-demo-api
   version: 0.0.1
   properties:
     allowCrossApp: false
