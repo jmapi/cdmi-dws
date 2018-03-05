@@ -2,11 +2,10 @@ package pw.cdmi.msm.praise.repositories;
 
 import java.util.List;
 
-import org.springframework.data.domain.Example;
-import org.springframework.data.repository.NoRepositoryBean;
+
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.QueryByExampleExecutor;
-import org.springframework.stereotype.Repository;
+
 
 import pw.cdmi.msm.praise.model.entities.Praise;
 /**

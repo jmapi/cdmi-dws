@@ -8,10 +8,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.annotation.CreatedDate;
 
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import pw.cdmi.radio.model.MultiApplication;
 import pw.cdmi.radio.model.MultiSite;
 import pw.cdmi.radio.model.MultiTenancy;
@@ -22,8 +22,9 @@ import pw.cdmi.radio.model.MultiTenancy;
 @Table(name="t_comment")
 public class Comment implements MultiTenancy, MultiSite,MultiApplication{
 	@Id
-	@GeneratedValue
-	private String id;
+	@GenericGenerator(name = "system-uuid", strategy = "uuid")
+	@GeneratedValue(generator = "system-uuid")
+	private String id; 
 	@Column(name="target_id", nullable = false)
 	private String targetId;               //评论对象的ID
 	@Column(name="terget_sid" ,nullable = true )
@@ -38,43 +39,15 @@ public class Comment implements MultiTenancy, MultiSite,MultiApplication{
 	private String commentatorSid;			//评论人的应用内账号ID
 	
 	@CreatedDate
-	@Column(name="createTime",nullable= false)
-	private Date create_time;				//评论时间
+	@Column(name="create_time",nullable= false)
+	private Date createTime;				//评论时间
 
-	@Override
-	public void setAppId(String app_id) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public String getAppId() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void setSiteId(String site_id) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public String getSiteId() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void setTenantId(String tenant_id) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public String getTenantId() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	@Column(name="app_id", nullable = true)
+	private String appId;						//数据归属应用ID
+	@Column(name="site_id", nullable = true)
+	private String siteId;						//对应的平台内子站点Id，这个子站点可能是租户，可以是频道
+	@Column(name="tenant_id", nullable = true)
+	private String tenantId;					//对应的租户ID
+	
 	
 }

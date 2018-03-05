@@ -23,18 +23,18 @@ public interface CommentRepsitory extends PagingAndSortingRepository<Comment, St
 	 * @param targetId
 	 * @return
 	 */
-	public List<Comment> findByTargetId(String targetId);
+	public List<Comment> findByTargetIdAndTargetType(String targetId,String targetType);
 	/**
 	 * 删除目标id评论
 	 * @param id
 	 */
-	public void deleteById(String id);
+	public void deleteById(String Id);
 	/**
 	 * 查看目标id评论
 	 * @param id
 	 * @return
 	 */
-	public Comment findById(String id);
+	public Comment findById(String Id);
 	/**
 	 * 查看目标评论数
 	 * @param targetId

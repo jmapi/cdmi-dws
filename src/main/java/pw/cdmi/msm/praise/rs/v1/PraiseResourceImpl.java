@@ -3,40 +3,7 @@ package pw.cdmi.msm.praise.rs.v1;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-
 //import org.apache.commons.lang3.StringUtils;
-
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -46,46 +13,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-import pw.cdmi.msm.comment.model.entities.Comment;
 import pw.cdmi.msm.comment.service.CommentService;
-import pw.cdmi.msm.praise.model.PraiseTarget;
 //import pw.cdmi.core.http.exception.AWSClientException;
 //import pw.cdmi.core.http.exception.AWSServiceException;
 //import pw.cdmi.core.http.exception.SystemReason;
 //import pw.cdmi.msm.geo.ClientReason;
 import pw.cdmi.msm.praise.model.SupportTargetType;
-import pw.cdmi.msm.praise.model.entities.Praise;
-import pw.cdmi.msm.praise.model.entities.Target;
-import pw.cdmi.msm.praise.repositories.FileRepsitory;
 import pw.cdmi.msm.praise.rs.ListPraiserResponse;
 import pw.cdmi.msm.praise.rs.PraiseRequest;
 import pw.cdmi.msm.praise.service.FileService;
 import pw.cdmi.msm.praise.service.PraiseService;
-import pw.cdmi.msm.praise.service.impl.PraiseServiceImpl;
 //import pw.cdmi.open.ClientError;
 @RestController
 @RequestMapping("/praise/v1")
@@ -126,7 +63,7 @@ public class PraiseResourceImpl implements PraiseResource {
 			
 			// 获取租户文件，並鎖定刪除，以及鎖定當前操作用戶刪除
 			System.out.println("检查是否存在target");
-			
+			//TODO
 			if(fileService.inspectExist(praise.getTarget().getId(), praise.getTarget().getType())){
 				// FIXME 该租户文件被删除
 				//	throw new AWSClientException(ClientError.InvalidParameter, ClientReason.InvalidParameter);

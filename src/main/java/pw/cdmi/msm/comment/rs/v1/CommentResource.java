@@ -9,6 +9,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
+import org.springframework.web.bind.annotation.PathVariable;
+
 import pw.cdmi.msm.comment.rs.CommentRequest;
 import pw.cdmi.msm.comment.rs.ListCommentResponse;
 
@@ -34,7 +36,7 @@ public interface CommentResource {
 	 */
 	@Path("/{target_id}/amount?type={target_type}")
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public int getCommentAmount(@PathParam("target_id") String id, @QueryParam("target_type") String type);
+	public long getCommentAmount( @PathVariable("target_id") String id, @PathParam("target_type") String type);
 
 	/**
 	 * 获取某个信息所获得的評論列表

@@ -3,7 +3,6 @@ package pw.cdmi.msm.praise.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import pw.cdmi.msm.comment.model.entities.Target;
 import pw.cdmi.msm.praise.repositories.FileRepsitory;
 import pw.cdmi.msm.praise.service.FileService;
 @Component

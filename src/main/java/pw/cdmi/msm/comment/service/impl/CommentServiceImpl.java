@@ -1,14 +1,19 @@
 package pw.cdmi.msm.comment.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import pw.cdmi.msm.comment.model.entities.Comment;
 import pw.cdmi.msm.comment.repositories.CommentRepsitory;
 import pw.cdmi.msm.comment.rs.CommentRequest;
 import pw.cdmi.msm.comment.service.CommentService;
-
+@Component
+@Transactional
 public class CommentServiceImpl implements CommentService {
 	@Autowired
 	private CommentRepsitory commentRepsitory;
@@ -21,31 +26,27 @@ public class CommentServiceImpl implements CommentService {
 		entityComment.setTargetType(comment.getTarget().getType());
 		entityComment.setCommentatorId(comment.getOwner_id());
 		entityComment.setContent(comment.getContent());
+		entityComment.setCreateTime(new Date());
 		commentRepsitory.save(entityComment);
 	}
 
 	@Override
-	public List<Comment> commentList(String target_id) {
+	public List<Comment> commentList(String target_id,String target_type) {
 		// TODO Auto-generated method stub
-		return commentRepsitory.findByTargetId(target_id);
+		return commentRepsitory.findByTargetIdAndTargetType(target_id,target_type);
 	}
 
 	@Override
-	public boolean deleteComment(String user_id, String Coment_id) {
+	public void deleteComment(String id) {
 		// TODO Auto-generated method stub
-		Comment comment = commentRepsitory.findById(Coment_id);
+		commentRepsitory.deleteById(id);
 		
-		if(comment.getCommentatorId().equals(user_id)){
-			commentRepsitory.deleteById(Coment_id);
-			return true;
-		}	
-		return false;
 	}
 
 	@Override
-	public long countComment(String target_id) {
+	public long countComment(String target_id,String target_type) {
 		// TODO Auto-generated method stub
-		return commentRepsitory.countByTargetId(target_id);
+		return commentRepsitory.countByTargetIdAndTargetType(target_id, target_type);
 	}
 
 	@Override
@@ -54,6 +55,12 @@ public class CommentServiceImpl implements CommentService {
 		if(commentRepsitory.countByTargetIdAndTargetType(id, type)>0)
 			return true;
 		return false;
+	}
+
+	@Override
+	public Comment findComment(String Id) {
+		// TODO Auto-generated method stub
+		return commentRepsitory.findById(Id);
 	}
 	
 }

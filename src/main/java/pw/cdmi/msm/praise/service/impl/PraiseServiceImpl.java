@@ -4,15 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-
 import javax.inject.Inject;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Component;
-
-import com.mysql.fabric.xmlrpc.base.Array;
-
 import pw.cdmi.msm.praise.model.PraiseTarget;
 import pw.cdmi.msm.praise.model.entities.Praise;
 import pw.cdmi.msm.praise.repositories.PraiseRepsitory;
@@ -28,6 +21,7 @@ public class PraiseServiceImpl implements PraiseService {
 	public void praiseObject(String account_id, PraiseTarget target) {
 		//FIXME 自动创建包含当前用户请求环境信息，并设置到对象中。
 		Praise praise = new Praise();
+	
 		praise.setUserUid(account_id);
 		praise.setTargetId(target.getId());
 		praise.setTargetType(target.getType());

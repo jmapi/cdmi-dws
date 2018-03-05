@@ -10,6 +10,7 @@ import javax.persistence.Table;
 
 import lombok.Data;
 
+import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 
@@ -27,8 +28,9 @@ import pw.cdmi.radio.model.MultiTenancy;
 @Table(name="t_praise")
 public class Praise implements MultiTenancy, MultiSite,MultiApplication{
 	@Id
-	@GeneratedValue
-	private long id;
+	@GenericGenerator(name = "system-uuid", strategy = "uuid")
+	@GeneratedValue(generator = "system-uuid")
+	private String id;
 	@Column(name="app_id", nullable = false)
 	private String appId;						//数据归属应用ID
 	@Column(name="site_id", nullable = true)
