@@ -56,7 +56,7 @@ public class CommentResourceImpl implements CommentResource {
 					case Tenancy_File:
 						
 						// 获取租户文件，並鎖定刪除，以及鎖定當前操作用戶刪除
-						
+					
 						//判断是否文件存在
 						if(fileService.inspectExist(comment.getTarget().getId(), comment.getTarget().getType())){
 							// FIXME 该租户文件被删除
