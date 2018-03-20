@@ -21,6 +21,6 @@ public class Target {
 	private String id;
 	@Column(name = "target_id",nullable = false )
 	private String targetId;
-	@Column(name = "target_id",nullable = false )
+	@Column(name = "type",nullable = false )
 	private String type;
 }
