@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import pw.cdmi.core.exception.InvalidParamException;
+import pw.cdmi.core.exception.InvalidParameterException;
 import pw.cdmi.msm.comment.service.CommentService;
 import pw.cdmi.msm.praise.model.PraiseTarget;
 //import pw.cdmi.core.http.exception.AWSClientException;
@@ -50,7 +50,7 @@ public class PraiseResourceImpl implements PraiseResource {
 				|| StringUtils.isBlank(praise.getOwner().getName())
 				) {
 			// FIXME 修改为客户端必要参数缺失，请检查
-			throw  new InvalidParamException("参数错误");
+			throw  new InvalidParameterException("参数错误");
 		}
 		
 		//TODO 检查type是否在支持列表中
@@ -108,7 +108,7 @@ public class PraiseResourceImpl implements PraiseResource {
 		//TODO 参数合法性检查
 		if (StringUtils.isBlank(id) || StringUtils.isBlank(type)) {
 			// FIXME 修改为客户端必要参数缺失，请检查
-			throw  new InvalidParamException("参数错误");
+			throw  new InvalidParameterException("参数错误");
 		}
 			
 		Map<String, Long> hashMap = new HashMap<String,Long>();
@@ -122,7 +122,7 @@ public class PraiseResourceImpl implements PraiseResource {
 		//TODO 参数合法性检查
 		if (StringUtils.isBlank(id) || StringUtils.isBlank(type)) {
 			// FIXME 修改为客户端必要参数缺失，请检查
-			throw  new InvalidParamException("参数错误");
+			throw  new InvalidParameterException("参数错误");
 		}
 		//获取praise list
 		List<Praise> praiseList = praiseService.listPraiser(id, type);
@@ -137,7 +137,7 @@ public class PraiseResourceImpl implements PraiseResource {
 		//TODO 参数合法性检查
 		if (StringUtils.isBlank(id) || StringUtils.isBlank(type)) {
 			// FIXME 修改为客户端必要参数缺失，请检查
-			throw  new InvalidParamException("参数错误");
+			throw  new InvalidParameterException("参数错误");
 		}
 		Map<String, Boolean> hashMap = new HashMap<String, Boolean>();
 		

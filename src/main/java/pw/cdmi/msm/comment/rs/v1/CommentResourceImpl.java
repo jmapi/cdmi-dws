@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import pw.cdmi.core.exception.InvalidParamException;
+import pw.cdmi.core.exception.InvalidParameterException;
 import pw.cdmi.msm.comment.model.entities.Comment;
 import pw.cdmi.msm.comment.rs.CommentRequest;
 import pw.cdmi.msm.comment.rs.ListCommentResponse;
@@ -44,7 +44,7 @@ public class CommentResourceImpl implements CommentResource {
 						|| StringUtils.isBlank(comment.getTarget().getId())
 						|| StringUtils.isBlank(comment.getTarget().getType())) {
 					// FIXME 修改为客户端必要参数缺失，请检查
-					throw new InvalidParamException("参数错误");
+					throw new InvalidParameterException("参数错误");
 				}
 				
 				// 检查type是否在支持列表中
@@ -84,7 +84,7 @@ public class CommentResourceImpl implements CommentResource {
 		//TODO 参数合法性检查
 		if (StringUtils.isBlank(id) || StringUtils.isBlank(type)) {
 			// FIXME 修改为客户端必要参数缺失，请检查
-			throw new InvalidParamException("参数错误");
+			throw new InvalidParameterException("参数错误");
 		}
 		
 		Map<String, Long> hashMap = new HashMap<String,Long>();
@@ -97,7 +97,7 @@ public class CommentResourceImpl implements CommentResource {
 		// TODO 参数合法性检查
 		if (StringUtils.isBlank(id) || StringUtils.isBlank(type)) {
 			// FIXME 修改为客户端必要参数缺失，请检查
-			throw new InvalidParamException("参数错误");
+			throw new InvalidParameterException("参数错误");
 		}
 		return toListCommentResponse(commentService.commentList(id,type));
 	}
@@ -107,7 +107,7 @@ public class CommentResourceImpl implements CommentResource {
 		//TODO 参数合法性检查
 		if (StringUtils.isBlank(userId) || StringUtils.isBlank(commentId)) {
 			// FIXME 修改为客户端必要参数缺失，请检查
-			throw new InvalidParamException("参数错误");
+			throw new InvalidParameterException("参数错误");
 		}
 		
 		//TODO  从Auth信息中获得请求用户的信息
@@ -140,7 +140,7 @@ public class CommentResourceImpl implements CommentResource {
 		//TODO 参数合法性检查
 		if ( StringUtils.isBlank(commentId)) {
 			// FIXME 修改为客户端必要参数缺失，请检查
-			throw new InvalidParamException("参数错误");
+			throw new InvalidParameterException("参数错误");
 		}
 		//TODO 从Auth信息中获取当前操作用户
 		//   检查要删除的评论id是否为当前操作用户所拥有
