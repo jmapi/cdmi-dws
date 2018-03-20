@@ -24,8 +24,11 @@ public class CommentServiceImpl implements CommentService {
 		Comment entityComment = new Comment();
 		entityComment.setTargetId(comment.getTarget().getId());
 		entityComment.setTargetType(comment.getTarget().getType());
-		entityComment.setCommentatorId(comment.getOwner_id());
 		entityComment.setContent(comment.getContent());
+		
+		entityComment.setCommentatorId(comment.getOwner().getId());
+		entityComment.setComentatorName(comment.getOwner().getName());
+		entityComment.setHeadImage(comment.getOwner().getHeadImage());
 		entityComment.setCreateTime(new Date());
 		commentRepsitory.save(entityComment);
 	}

@@ -37,7 +37,10 @@ public class Comment implements MultiTenancy, MultiSite,MultiApplication{
 	private String commentatorId;			//评论人的id
 	@Column(name="commentator_sid" ,nullable = true)
 	private String commentatorSid;			//评论人的应用内账号ID
-	
+	@Column(name="commentator_name" ,nullable = false)
+	private String comentatorName;			//评论人名字
+	@Column(name="head_image",nullable=false)
+	private String headImage;				//评论人头像
 	@CreatedDate
 	@Column(name="create_time",nullable= false)
 	private Date createTime;				//评论时间

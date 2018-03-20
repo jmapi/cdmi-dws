@@ -8,6 +8,6 @@ import lombok.Data;
 public class CommentRequest {
 	private CommentTarget target;
 	private String content;
-	private String owner_id;
-	private Date create_time;
+	private Owner owner;
+	
 }

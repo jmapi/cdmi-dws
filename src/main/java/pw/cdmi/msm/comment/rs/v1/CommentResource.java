@@ -1,6 +1,7 @@
 package pw.cdmi.msm.comment.rs.v1;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -36,7 +37,7 @@ public interface CommentResource {
 	 */
 	@Path("/{target_id}/amount?type={target_type}")
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public long getCommentAmount( @PathVariable("target_id") String id, @PathParam("target_type") String type);
+	public  Map<String, Long>  getCommentAmount( @PathVariable("target_id") String id, @PathParam("target_type") String type);
 
 	/**
 	 * 获取某个信息所获得的評論列表

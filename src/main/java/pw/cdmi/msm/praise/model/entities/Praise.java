@@ -31,25 +31,37 @@ public class Praise implements MultiTenancy, MultiSite,MultiApplication{
 	@GenericGenerator(name = "system-uuid", strategy = "uuid")
 	@GeneratedValue(generator = "system-uuid")
 	private String id;
-	@Column(name="app_id", nullable = false)
+	
+	@Column(name="app_id", nullable = true)
 	private String appId;						//数据归属应用ID
+	
 	@Column(name="site_id", nullable = true)
 	private String siteId;						//对应的平台内子站点Id，这个子站点可能是租户，可以是频道
+	
 	@Column(name="tenant_id", nullable = true)
 	private String tenantId;					//对应的租户ID
 	
 	@CreatedBy
 	@Column(name="account_id", nullable = false)
+	
 	private String userUid;						//对应的平台账号Id
-	@Column(name="account_aid", nullable = true)
+	
+	@Column(name="account_aid", nullable = true)	
 	@CreatedBy
 	private String userAid;						//对应的应用账号Id
+	
 	@Column(name="account_tid", nullable = true)
 	@CreatedBy
 	private String userTid;						//对应的租户账号Id
+	@Column(name="account_name", nullable = false)
+	private String userName;
+	
+	@Column(name="head_Image", nullable = false)
+	private String headImage;					//点赞的对象的头像地址
 	
 	@Column(name="target_id", nullable = false)
 	private String targetId;					//点赞的对象ID
+	
 	@Column(name="target_type", nullable = false)
 	private String targetType;					//点赞的对象类型，如主播的动态信息，主播本人，房间，视频, 文件
 	
