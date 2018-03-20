@@ -12,9 +12,9 @@ import org.springframework.data.annotation.CreatedDate;
 
 import lombok.Data;
 import pw.cdmi.msm.complain.model.Status;
-import pw.cdmi.radio.model.MultiApplication;
-import pw.cdmi.radio.model.MultiSite;
-import pw.cdmi.radio.model.MultiTenancy;
+import pw.cdmi.share.model.MultiApplication;
+import pw.cdmi.share.model.MultiSite;
+import pw.cdmi.share.model.MultiTenancy;
 
 @Data
 @Entity(name="t_complain")

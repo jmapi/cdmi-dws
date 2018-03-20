@@ -14,9 +14,9 @@ import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 
-import pw.cdmi.radio.model.MultiApplication;
-import pw.cdmi.radio.model.MultiSite;
-import pw.cdmi.radio.model.MultiTenancy;
+import pw.cdmi.share.model.MultiApplication;
+import pw.cdmi.share.model.MultiSite;
+import pw.cdmi.share.model.MultiTenancy;
 
 /**
  * 点赞记录表
