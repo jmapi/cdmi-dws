@@ -1,5 +1,5 @@
 spring:
   application:
-    name: cdmi-demo-api
+    name: cdmi-dws-service
   profiles:
     active: @profileActive@

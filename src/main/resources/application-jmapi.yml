@@ -5,7 +5,7 @@ server:
 #
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/test?useUnicode=true&characterEncoding=UTF8&useSSL=false
+    url: jdbc:mysql://localhost:3306/msm?useUnicode=true&characterEncoding=UTF8&useSSL=false
     username: db_user
     password: 6;aVhFRF8<ms
     driverClassName: com.mysql.jdbc.Driver
