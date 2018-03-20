@@ -1,6 +1,7 @@
 package pw.cdmi.msm.praise.rs.v1;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -8,6 +9,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+
 
 
 import pw.cdmi.msm.praise.rs.ListPraiserResponse;
@@ -38,7 +40,7 @@ public interface PraiseResource {
 
 	@Path("/{target_id}/amount?type={target_type}")
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public long getPraiseAmount(@PathParam("target_id") String id, @QueryParam("target_type") String type);
+	public Map<String, Long> getPraiseAmount(@PathParam("target_id") String id, @QueryParam("target_type") String type);
 
 	/**
 	 * 获取某个信息所获得的点赞人员列表
