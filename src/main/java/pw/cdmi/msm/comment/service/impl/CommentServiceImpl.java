@@ -1,17 +1,24 @@
 package pw.cdmi.msm.comment.service.impl;
 
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
 import pw.cdmi.msm.comment.model.entities.Comment;
 import pw.cdmi.msm.comment.repositories.CommentRepsitory;
-import pw.cdmi.msm.comment.rs.CommentRequest;
 import pw.cdmi.msm.comment.service.CommentService;
+
 @Component
 @Transactional
 public class CommentServiceImpl implements CommentService {
@@ -19,51 +26,57 @@ public class CommentServiceImpl implements CommentService {
 	private CommentRepsitory commentRepsitory;
 
 	@Override
-	public void commentObject(CommentRequest comment) {
+	public void commentObject(Comment comment) {
 		// TODO Auto-generated method stub
-		Comment entityComment = new Comment();
-		entityComment.setTargetId(comment.getTarget().getId());
-		entityComment.setTargetType(comment.getTarget().getType());
-		entityComment.setContent(comment.getContent());
 		
-		entityComment.setCommentatorId(comment.getOwner().getId());
-		entityComment.setComentatorName(comment.getOwner().getName());
-		entityComment.setHeadImage(comment.getOwner().getHeadImage());
-		entityComment.setCreateTime(new Date());
-		commentRepsitory.save(entityComment);
+		comment.setPraiseNumber(0);
+		comment.setCreateTime(new Date());
+		commentRepsitory.save(comment);
 	}
 
 	@Override
-	public List<Comment> commentList(String target_id,String target_type) {
+	public Iterator<Comment> commentList(Comment comment,int cursor,int maxcount) {
 		// TODO Auto-generated method stub
-		return commentRepsitory.findByTargetIdAndTargetType(target_id,target_type);
-	}
-
-	@Override
-	public void deleteComment(String id) {
-		// TODO Auto-generated method stub
-		commentRepsitory.deleteById(id);
+		Sort.Order order =  new Sort.Order(Sort.Direction.ASC,"createTime");
+        Sort sort = new Sort(order);	
+        Pageable pageRequest = new PageRequest(cursor,maxcount,sort);
+        ExampleMatcher matching = ExampleMatcher.matching().withIgnorePaths("praiseNumber");
+  
+		Page<Comment> findAll = commentRepsitory.findAll(Example.of(comment,matching), pageRequest);
+		
+		return findAll.getContent().iterator();
 		
 	}
 
 	@Override
-	public long countComment(String target_id,String target_type) {
+	public void deleteComment(Comment comment) {
 		// TODO Auto-generated method stub
-		return commentRepsitory.countByTargetIdAndTargetType(target_id, target_type);
+		Comment findOne = commentRepsitory.findOne(Example.of(comment));
+		if(findOne==null){
+			throw new SecurityException("你没有权限");
+		}
+		commentRepsitory.delete(comment.getId());
+		
 	}
 
 	@Override
-	public boolean inspectExist(String id, String type) {
+	public long countComment(Comment comment) {
 		// TODO Auto-generated method stub
-		if(commentRepsitory.countByTargetIdAndTargetType(id, type)>0)
+		return commentRepsitory.count(Example.of(comment));
+	}
+
+	@Override
+	public boolean inspectExist(Comment comment) {
+		// TODO Auto-generated method stub
+		if(commentRepsitory.findOne(Example.of(comment))==null)
 			return true;
 		return false;
 	}
 
 	@Override
-	public Comment findComment(String Id) {
+	public Comment findComment(Comment comment) {
 		// TODO Auto-generated method stub
-		return commentRepsitory.findById(Id);
+		return commentRepsitory.findOne(Example.of(comment));
 	}
 	
 }

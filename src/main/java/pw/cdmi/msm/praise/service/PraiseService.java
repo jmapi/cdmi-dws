@@ -1,5 +1,6 @@
 package pw.cdmi.msm.praise.service;
 
+import java.util.Iterator;
 import java.util.List;
 
 import pw.cdmi.msm.praise.model.PraiseTarget;
@@ -17,15 +18,19 @@ import pw.cdmi.msm.praise.rs.PraiseRequest;
  */
 public interface PraiseService {
 	//对目标对象进行点赞
-	public void praiseObject(PraiseRequest praiseRequest);
+	public void praiseObject(Praise praise);
 	
 	//获得目标对象的点赞次数，如果得到Long的最大值，则不再增加
-	public long getPrainseNumber(String target_id,String target_type);
+	public long getPrainseNumber(Praise praise);
 	
 	//获得目标对象的点赞人列表
-	public List<Praise> listPraiser(String target_id,String target_type);
+	public Iterator<Praise> listPraiser(Praise praise,
+			int cursor, int maxcount);
 	
 	//检查是否已经点赞
-	public boolean inspectExist(String account_id,PraiseTarget target);
+	public boolean inspectExist(Praise praise);
+	
+	public void deletePraise(Praise praise);
+
 	
 }

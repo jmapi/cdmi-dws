@@ -1,13 +1,11 @@
 package pw.cdmi.msm.comment.rs;
 
-import java.util.Date;
-
 import lombok.Data;
 
 @Data
-public class CommentRequest {
+public class TestCommentRequest {
 	private CommentTarget target;
 	private String content;
-	private String ownerId;
+	private Owner owner;
 	
 }

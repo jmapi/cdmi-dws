@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import pw.cdmi.core.exception.InvalidParameterException;
+import pw.cdmi.msm.comment.model.entities.Comment;
+import pw.cdmi.msm.comment.repositories.CommentRepsitory;
 import pw.cdmi.msm.comment.service.CommentService;
 import pw.cdmi.msm.praise.model.PraiseTarget;
 //import pw.cdmi.core.http.exception.AWSClientException;
@@ -28,26 +30,28 @@ import pw.cdmi.msm.praise.model.SupportTargetType;
 import pw.cdmi.msm.praise.model.entities.Praise;
 import pw.cdmi.msm.praise.rs.ListPraiserResponse;
 import pw.cdmi.msm.praise.rs.PraiseRequest;
+import pw.cdmi.msm.praise.rs.TestPraiseRequest;
 import pw.cdmi.msm.praise.service.PraiseService;
 //import pw.cdmi.open.ClientError;
 @RestController
 @RequestMapping("/praise/v1")
-public class PraiseResourceImpl implements PraiseResource {
+public class PraiseResourceImpl {
 
 	@Autowired
 	private PraiseService praiseService;
 	@Autowired
-	private CommentService commentService;
+	private CommentRepsitory commentService;
+	
+	
+	
 	@PostMapping
-	@Override
 	public void praise(@RequestBody PraiseRequest praise) {
 		//TODO 参数合法性检查
 		
-		if (praise == null || praise.getOwner()==null || praise.getTarget() == null
+		if (praise == null || praise.getTarget() == null
 				|| StringUtils.isBlank(praise.getTarget().getId())
 				|| StringUtils.isBlank(praise.getTarget().getType())
-				|| StringUtils.isBlank(praise.getOwner().getId())
-				|| StringUtils.isBlank(praise.getOwner().getName())
+				|| StringUtils.isBlank(praise.getOwnerId())
 				) {
 			// FIXME 修改为客户端必要参数缺失，请检查
 			throw  new InvalidParameterException("参数错误");
@@ -61,7 +65,11 @@ public class PraiseResourceImpl implements PraiseResource {
 			throw new NullPointerException("SupperTargetType is null");
 		}
 		//包装点赞对象
-		
+		Praise praise2 = new Praise();
+		praise2.setUserAid(praise.getOwnerId());
+		praise2.setAppId("test");
+		praise2.setTargetId(praise.getTarget().getId());
+		praise2.setTargetType(praise.getTarget().getType());
 		// 根据点赞目标类型，判断点赞目标对象是否存在
 		synchronized (this){
 		switch (support_target_type) {
@@ -69,25 +77,26 @@ public class PraiseResourceImpl implements PraiseResource {
 			
 			//TODO 
 			//该用户是否已经对该租户文件有点赞信息
-			if(praiseService.inspectExist(praise.getOwner().getId(), praise.getTarget())){
+			if(praiseService.inspectExist(praise2)){
 				// FIXME 已经存在该用户对该租户文件点赞记录
 					throw new SecurityException("已经点赞");
 			}
-			//TODO 
-			// 如果租戶文件存在，新增一個點贊信息，釋放鎖定刪除	
-			praiseService.praiseObject(praise);
-			
+						
 			break;
-		case Tenancy_Comment:
-					
+		case Tenancy_Comment:				
 			
 			//TODO 该用户是否已经对该租户文件有点赞信息
-			if(praiseService.inspectExist(praise.getOwner().getId(), praise.getTarget())){
+			if(praiseService.inspectExist(praise2)){
 				// FIXME 已经存在该用户对该租户文件点赞记录
 				throw new  SecurityException("已经点赞");
 			}
-			// 如果租戶文件存在，新增一個點贊信息，釋放鎖定刪除	
-			praiseService.praiseObject(praise);
+			//TODO 记录评论的点赞数
+			Comment findOne = commentService.findOne(praise.getTarget().getId());
+			if(findOne!=null){
+				findOne.setPraiseNumber(findOne.getPraiseNumber()+1);
+				commentService.save(findOne);
+			}
+			
 			break;
 		case Tenancy_User:
 			// 获取租户用户，並鎖定刪除，以及鎖定當前操作用戶刪除
@@ -97,40 +106,44 @@ public class PraiseResourceImpl implements PraiseResource {
 		default:
 		//	throw new AWSServiceException(SystemReason.UnImplemented);
 		}
-		
+		praiseService.praiseObject(praise2);
 	}
 		
 
 	}
 	@GetMapping(value="/{target_id}/amount")
-	@Override
 	public @ResponseBody Map<String, Long> getPraiseAmount(@PathVariable("target_id") String id,@RequestParam("type") String type) {
 		//TODO 参数合法性检查
 		if (StringUtils.isBlank(id) || StringUtils.isBlank(type)) {
 			// FIXME 修改为客户端必要参数缺失，请检查
 			throw  new InvalidParameterException("参数错误");
 		}
-			
+		Praise praise = new Praise(); 
+		praise.setTargetId(id);
+		praise.setTargetType(type);
+		praise.setAppId("test");
 		Map<String, Long> hashMap = new HashMap<String,Long>();
-		hashMap.put("amount",praiseService.getPrainseNumber(id, type));
+		hashMap.put("amount",praiseService.getPrainseNumber(praise));
 		return hashMap;
 		
 	}
 	@GetMapping(value="/{target_id}/praiser")
-	@Override
-	public @ResponseBody List<ListPraiserResponse> listPraiser(@PathVariable("target_id") String id,@RequestParam("type") String type) {
+	public @ResponseBody List<ListPraiserResponse> listPraiser(@PathVariable("target_id") String id,@RequestParam("type") String type,
+			@RequestParam("cursor")int cursor,@RequestParam("maxcount")int maxcount) {
 		//TODO 参数合法性检查
 		if (StringUtils.isBlank(id) || StringUtils.isBlank(type)) {
 			// FIXME 修改为客户端必要参数缺失，请检查
 			throw  new InvalidParameterException("参数错误");
 		}
+		Praise praise = new Praise(); 
+		praise.setTargetId(id);
+		praise.setTargetType(type);
+		praise.setAppId("test");
 		//获取praise list
-		List<Praise> praiseList = praiseService.listPraiser(id, type);
-		if(praiseList==null){
-			throw new NullPointerException("praiseList is null");
-		}
+		Iterator<Praise> listPraiser = praiseService.listPraiser(praise,cursor,maxcount);
+		
 		//转换
-		return toListPraiserResponse(praiseList);
+		return toListPraiserResponse(listPraiser);
 	}
 	@GetMapping(value="/users/{userId}/praised/{target_id}")	
 	public @ResponseBody Map<String, Boolean> inspectExist(@PathVariable("userId") String userId,@PathVariable("target_id") String id,@RequestParam("type") String type) {
@@ -141,34 +154,111 @@ public class PraiseResourceImpl implements PraiseResource {
 		}
 		Map<String, Boolean> hashMap = new HashMap<String, Boolean>();
 		
-		PraiseTarget target = new PraiseTarget();
-		target.setId(id);
-		target.setType(type);
+		Praise praise = new Praise();
+		praise.setUserAid(userId);
+		praise.setAppId("test");
+		praise.setTargetId(id);
+		praise.setTargetType(type);
 		
-		boolean b = praiseService.inspectExist(userId, target);
+		boolean b = praiseService.inspectExist(praise);
 	
 		hashMap.put("praised", b);
 		return hashMap;
+	}
+	@GetMapping(value="{id}")
+	public void deletePraise(@PathVariable("id") String praiseid,@RequestParam("userId") String  userId){
+		Praise praise = new Praise();
+		praise.setAppId("test");
+		praise.setId(praiseid);
+		praise.setUserAid(userId);
+		praiseService.deletePraise(praise);
 	}
 	/**
 	 * 转化器
 	 * @param praiseList
 	 * @return
 	 */
-	private List<ListPraiserResponse> toListPraiserResponse(List<Praise> praiseList) {	
+	private List<ListPraiserResponse> toListPraiserResponse(Iterator<Praise> iterator) {	
 		//TODO 转化
-		List<ListPraiserResponse> Responselist = new ArrayList<ListPraiserResponse>();
-		Iterator<Praise> iterator = praiseList.iterator();
 		
+		List<ListPraiserResponse> list = new ArrayList<ListPraiserResponse>(); 
 		while(iterator.hasNext()){
 			
 			ListPraiserResponse response = new ListPraiserResponse();
 			Praise next = iterator.next();
-			response.setId(next.getUserUid());
+			response.setId(next.getUserAid());
 			response.setHeadImage(next.getHeadImage());
 			response.setName(next.getUserName());
-			Responselist.add(response);
+			list.add(response);
 		}
-		return Responselist;
+		return list;
+	}
+	//-------------------------------------test
+	@PostMapping("/test")
+	public void testpraise(@RequestBody TestPraiseRequest praise) {
+		//TODO 参数合法性检查
+		
+		if (praise == null || praise.getTarget() == null || praise.getOwner() == null
+				|| StringUtils.isBlank(praise.getTarget().getId())
+				|| StringUtils.isBlank(praise.getTarget().getType())
+				|| StringUtils.isBlank(praise.getOwner().getId())
+				) {
+			// FIXME 修改为客户端必要参数缺失，请检查
+			throw  new InvalidParameterException("参数错误");
+		}
+		
+		//TODO 检查type是否在支持列表中
+		
+		SupportTargetType support_target_type = SupportTargetType.fromName(praise.getTarget().getType());
+		if (support_target_type == null) {
+			// FIXME 修改为不支持的点赞目标类型
+			throw new NullPointerException("SupperTargetType is null");
+		}
+		//包装点赞对象
+		Praise praise2 = new Praise();
+		praise2.setUserAid(praise.getOwner().getId());
+		praise2.setUserName(praise.getOwner().getName());
+		praise2.setHeadImage(praise.getOwner().getHeadImage());
+		praise2.setAppId("test");
+		praise2.setTargetId(praise.getTarget().getId());
+		praise2.setTargetType(praise.getTarget().getType());
+		// 根据点赞目标类型，判断点赞目标对象是否存在
+		synchronized (this){
+		switch (support_target_type) {
+		case Tenancy_File:
+			
+			//TODO 
+			//该用户是否已经对该租户文件有点赞信息
+			if(praiseService.inspectExist(praise2)){
+				// FIXME 已经存在该用户对该租户文件点赞记录
+					throw new SecurityException("已经点赞");
+			}
+						
+			break;
+		case Tenancy_Comment:				
+			
+			//TODO 该用户是否已经对该租户文件有点赞信息
+			if(praiseService.inspectExist(praise2)){
+				// FIXME 已经存在该用户对该租户文件点赞记录
+				throw new  SecurityException("已经点赞");
+			}
+			//TODO 记录评论的点赞数
+			Comment findOne = commentService.findOne(praise.getTarget().getId());
+			if(findOne!=null){
+				findOne.setPraiseNumber(findOne.getPraiseNumber()+1);
+				commentService.save(findOne);
+			}
+			
+			break;
+		case Tenancy_User:
+			// 获取租户用户，並鎖定刪除，以及鎖定當前操作用戶刪除
+			
+			// 如果租戶用戶存在，新增一個點贊信息，釋放鎖定刪除
+			break;
+		default:
+		//	throw new AWSServiceException(SystemReason.UnImplemented);
+		}
+		praiseService.praiseObject(praise2);
+	}
 	}
 }

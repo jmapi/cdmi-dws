@@ -32,31 +32,32 @@ public class Praise implements MultiTenancy, MultiSite,MultiApplication{
 	@GeneratedValue(generator = "system-uuid")
 	private String id;
 	
-	@Column(name="app_id", nullable = true)
+	@Column(name="app_id", nullable = false)
 	private String appId;						//数据归属应用ID
+		
+	@Column(name="tenant_id", nullable = true)
+	private String tenantId;					//对应的租户ID
 	
 	@Column(name="site_id", nullable = true)
 	private String siteId;						//对应的平台内子站点Id，这个子站点可能是租户，可以是频道
 	
-	@Column(name="tenant_id", nullable = true)
-	private String tenantId;					//对应的租户ID
-	
 	@CreatedBy
-	@Column(name="account_id", nullable = false)
+	@Column(name="praiser_id", nullable = true)
 	
 	private String userUid;						//对应的平台账号Id
 	
-	@Column(name="account_aid", nullable = true)	
+	@Column(name="praiser_aid", nullable = false)	
 	@CreatedBy
 	private String userAid;						//对应的应用账号Id
 	
-	@Column(name="account_tid", nullable = true)
+	@Column(name="praiser_tid", nullable = true)
 	@CreatedBy
 	private String userTid;						//对应的租户账号Id
-	@Column(name="account_name", nullable = false)
+	
+	@Column(name="praiser_name", nullable = true)
 	private String userName;
 	
-	@Column(name="head_Image", nullable = false)
+	@Column(name="head_Image", nullable = true)
 	private String headImage;					//点赞的对象的头像地址
 	
 	@Column(name="target_id", nullable = false)
@@ -67,10 +68,10 @@ public class Praise implements MultiTenancy, MultiSite,MultiApplication{
 	
 	@CreatedDate
 	@Column(name="create_time", nullable = false)
-	private Date createtime;					//该记录创建时间
+	private Date createTime;					//该记录创建时间
 	
 	 public Praise(){  
 		  
-	    }
+	 }
 	
 }

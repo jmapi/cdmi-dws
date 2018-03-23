@@ -50,7 +50,7 @@ public interface PraiseResource {
 	 * @param maxNumber 最大顯示點贊人員數量
 	 * @return
 	 */
-	@Path("/{target_id}/praiser?type={target_type}&limit={max_number}")
+	@Path("/{target_id}/praiser?type={target_type}&&limit={max_number}")
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public List<ListPraiserResponse> listPraiser(@PathParam("target_id") String id,
 			@QueryParam("target_type") String type);

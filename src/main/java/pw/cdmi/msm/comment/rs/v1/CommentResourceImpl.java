@@ -23,24 +23,24 @@ import pw.cdmi.msm.comment.model.entities.Comment;
 import pw.cdmi.msm.comment.rs.CommentRequest;
 import pw.cdmi.msm.comment.rs.ListCommentResponse;
 import pw.cdmi.msm.comment.rs.Owner;
+import pw.cdmi.msm.comment.rs.TestCommentRequest;
 import pw.cdmi.msm.comment.service.CommentService;
 import pw.cdmi.msm.comment.model.SupportTargetType;
 
 @RestController
 @RequestMapping("comments/v1")
-public class CommentResourceImpl implements CommentResource {
+public class CommentResourceImpl {
 
 	@Autowired
 	private CommentService commentService;
 	
 	
 	@PostMapping
-	@Override
 	public void comment(@RequestBody CommentRequest comment) {
 		// TODO Auto-generated method stub
 		// 参数合法性检查
 				
-				if (comment == null || comment.getOwner()==null|| StringUtils.isBlank(comment.getOwner().getId())||StringUtils.isBlank(comment.getOwner().getName())|| comment.getTarget() == null
+				if (comment == null ||  StringUtils.isBlank(comment.getOwnerId())|| comment.getTarget() == null
 						|| StringUtils.isBlank(comment.getTarget().getId())
 						|| StringUtils.isBlank(comment.getTarget().getType())) {
 					// FIXME 修改为客户端必要参数缺失，请检查
@@ -55,19 +55,25 @@ public class CommentResourceImpl implements CommentResource {
 					throw  new NullPointerException("SupportTargetType is null");
 				
 				}
+				Comment comment2 = new Comment();
+				comment2.setUserAid(comment.getOwnerId());
+				comment2.setContent(comment.getContent());
+				comment2.setTargetId(comment.getTarget().getId());
+				comment2.setTargetType(comment.getTarget().getType());
+				
+				comment2.setAppId("test");
 				//包装点赞对象
-				synchronized (this) {
 					switch (support_target_type) {
 					case Tenancy_File:
 						
-						//TODO 添加评论信息				
-						commentService.commentObject(comment);
+						//TODO 补充				
+						
 						
 						break;
 					case Tenancy_Comment:
 						
-						//TODO 添加评论信息
-						commentService.commentObject(comment);
+						//TODO 补充
+				//		commentService.commentObject(comment2);
 		
 						break;
 					case Tenancy_User:
@@ -76,34 +82,41 @@ public class CommentResourceImpl implements CommentResource {
 					default:
 						throw new SecurityException();
 					}
-				}
+					commentService.commentObject(comment2);
 	}
-	@GetMapping("/target/{target_id}/amount")
-	@Override
-	public @ResponseBody Map<String, Long> getCommentAmount(@PathVariable("target_id")String id,@RequestParam("type") String type) {
+	@GetMapping("/{target_id}/amount")
+	public @ResponseBody Map<String, Object> getCommentAmount(@PathVariable("target_id")String id,@RequestParam("type") String type) {
 		//TODO 参数合法性检查
 		if (StringUtils.isBlank(id) || StringUtils.isBlank(type)) {
 			// FIXME 修改为客户端必要参数缺失，请检查
 			throw new InvalidParameterException("参数错误");
 		}
+		Comment comment = new Comment();
+		comment.setTargetId(id);
+		comment.setTargetType(type);
+		comment.setAppId("test");
 		
-		Map<String, Long> hashMap = new HashMap<String,Long>();
-		hashMap.put("amount",commentService.countComment(id,type));
+		Map<String, Object> hashMap = new HashMap<String,Object>();
+		hashMap.put("amount",commentService.countComment(comment));
 		return hashMap;
 	}
-	@GetMapping("target/{id}")
-	@Override
-	public List<ListCommentResponse> listComment(@PathVariable("id") String id, @RequestParam("type") String type) {
+	@GetMapping("{target_id}/comment")
+	public List<ListCommentResponse> listComment(@PathVariable("target_id") String id, @RequestParam("type") String type,
+			@RequestParam("cursor")int cursor,@RequestParam("maxcount")int maxcount) {
 		// TODO 参数合法性检查
 		if (StringUtils.isBlank(id) || StringUtils.isBlank(type)) {
 			// FIXME 修改为客户端必要参数缺失，请检查
 			throw new InvalidParameterException("参数错误");
 		}
-		return toListCommentResponse(commentService.commentList(id,type));
+		Comment comment = new Comment();
+		comment.setTargetId(id);
+		comment.setTargetType(type);
+		comment.setAppId("test");
+		return toListCommentResponse(commentService.commentList(comment,cursor,maxcount));
 	}
 	
 	@DeleteMapping("/{id}")
-	public void delComment(@RequestParam(value="userid",required=true)String userId,@PathVariable("id")String commentId){
+	public void delComment(@RequestParam(value="user_id")String userId,@PathVariable("id")String commentId){
 		//TODO 参数合法性检查
 		if (StringUtils.isBlank(userId) || StringUtils.isBlank(commentId)) {
 			// FIXME 修改为客户端必要参数缺失，请检查
@@ -112,7 +125,7 @@ public class CommentResourceImpl implements CommentResource {
 		
 		//TODO  从Auth信息中获得请求用户的信息
 		//判断该用户是否具有管理权限，可以删除他人发布的评论信息
-		
+		/*
 		if(userId != null){
 			//管理员删除指定用户发布的评论信息
 			Comment findComment = commentService.findComment(commentId);
@@ -132,9 +145,18 @@ public class CommentResourceImpl implements CommentResource {
 			
 			commentService.deleteComment(commentId);
 		}
+		*/
+		Comment comment = new Comment();
+		comment.setAppId("test");
+		comment.setId(commentId);
+		comment.setUserAid(userId); 
+		
+		commentService.deleteComment(comment);
+		
+		
 	}
 
-	
+	/*
 	//@DeleteMapping("/{id}")
 	public void delComment(@PathVariable("id")String commentId){
 		//TODO 参数合法性检查
@@ -149,29 +171,67 @@ public class CommentResourceImpl implements CommentResource {
 		commentService.deleteComment(commentId);
 	}
 	
+	*/
+	private List<ListCommentResponse> toListCommentResponse(Iterator<Comment> it) {
 	
-	private List<ListCommentResponse> toListCommentResponse(List<Comment> listComment) {
-		Iterator<Comment> it = listComment.iterator();
 		List<ListCommentResponse> listResponse = new ArrayList<ListCommentResponse>();
 		while(it.hasNext()){
 			ListCommentResponse response = new ListCommentResponse();
 			Comment comment = (Comment)it.next();
+			
+			response.setPraiseNumber(comment.getPraiseNumber());
 			response.setContent(comment.getContent());
 			response.setCreate_time(comment.getCreateTime().toString());
 			response.setId(comment.getId());
 			Owner owner = new Owner();
-			owner.setId(comment.getCommentatorId());
+			owner.setId(comment.getUserAid());
 			
 			//TODO 评论人头像
 			owner.setHeadImage(comment.getHeadImage());
 			//TODO 评论人名字
-			owner.setName(comment.getComentatorName());
+			owner.setName(comment.getUserName());
 			
 			response.setOwner(owner);
 			listResponse.add(response);
 		}
 		
 		return listResponse;
+	}
+	//---------------------------test
+	@PostMapping("/test")
+	public void testcomment(@RequestBody TestCommentRequest comment) {
+		// TODO Auto-generated method stub
+		// 参数合法性检查
+				
+				if (comment == null || comment.getTarget() == null||comment.getOwner() == null
+						
+						|| StringUtils.isBlank(comment.getOwner().getId())
+						|| StringUtils.isBlank(comment.getTarget().getId())
+						|| StringUtils.isBlank(comment.getTarget().getType())) {
+					// FIXME 修改为客户端必要参数缺失，请检查
+					throw new InvalidParameterException("参数错误");
+				}
+				
+				// 检查type是否在支持列表中
+				
+				SupportTargetType support_target_type = SupportTargetType.fromName(comment.getTarget().getType());
+				if (support_target_type == null) {
+					// FIXME 修改为不支持的点赞目标类型
+					throw  new NullPointerException("SupportTargetType is null");
+				
+				}
+				Comment comment2 = new Comment();
+				comment2.setUserAid(comment.getOwner().getId());
+				comment2.setUserName(comment.getOwner().getName());
+				comment2.setHeadImage(comment.getOwner().getHeadImage());
+				comment2.setContent(comment.getContent());
+				comment2.setTargetId(comment.getTarget().getId());
+				comment2.setTargetType(comment.getTarget().getType());
+				
+				comment2.setAppId("test");
+				//包装点赞对象
+					
+				commentService.commentObject(comment2);
 	}
 
 }
