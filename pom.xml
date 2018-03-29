@@ -110,17 +110,9 @@
     		<version>3.4</version>
 		</dependency>
         
-		 <dependency>
-    		<groupId>com.sun.xml.bind</groupId>
-    		<artifactId>jaxb-core</artifactId>
-    		<version>2.2.11</version>
-		</dependency>
-		<dependency>
-    		<groupId>com.sun.xml.bind</groupId>
-    		<artifactId>jaxb-impl</artifactId>
-    		<version>2.2.11</version>
-		</dependency>
-			<dependency>                  
+		 
+		
+		<dependency>                  
 			<groupId>smn</groupId>                  
 			<artifactId>cloud-java-sdk-smn</artifactId>                  
 			<version>2.0.2</version>                  
@@ -130,7 +122,7 @@
 		 <dependency>
             <groupId>com.huawei.apigateway</groupId>
             <artifactId>java-sdk-core</artifactId>
-            <version>${apigateway.version}</version>
+            <version>2.0.1</version>
             <scope>system</scope>
             <systemPath>${project.basedir}/lib/java-sdk-core-2.0.1.jar</systemPath>
         </dependency>

@@ -1,9 +1,8 @@
 package pw.cdmi.msm.commons;
 
-import java.util.ArrayList;
+
 import java.util.UUID;
 
-import org.junit.Test;
 /**
  * 生成11位openid 测试一亿为发现重复
  * @author ljj
@@ -25,17 +24,4 @@ public class NumberGenerate {
 		return uuid.subSequence(1, 5) + time.substring(11, 13);
 	}
 	
-	@Test
-	public void a(){
-		ArrayList<String> arrayList = new ArrayList<String>();
-		for(int i=0;i<100000000;i++){
-			String openId = toOpenId();
-			if(arrayList.contains(openId)){
-				System.out.println(openId);
-				
-				arrayList.add(openId);
-			}
-		}
-		
-	}
 }
