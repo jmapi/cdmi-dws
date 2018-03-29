@@ -54,10 +54,10 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-redis</artifactId>
-		</dependency>
+		<dependency>  
+   		 	<groupId>org.springframework.boot</groupId>  
+   			<artifactId>spring-boot-starter-cache</artifactId>  
+		</dependency> 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-mongodb</artifactId>
@@ -120,6 +120,25 @@
     		<artifactId>jaxb-impl</artifactId>
     		<version>2.2.11</version>
 		</dependency>
+			<dependency>                  
+			<groupId>smn</groupId>                  
+			<artifactId>cloud-java-sdk-smn</artifactId>                  
+			<version>2.0.2</version>                  
+			<scope>system</scope>                  
+			<systemPath>${project.basedir}/lib/cloud-java-sdk-smn-2.0.2.jar</systemPath> 
+		</dependency> 
+		 <dependency>
+            <groupId>com.huawei.apigateway</groupId>
+            <artifactId>java-sdk-core</artifactId>
+            <version>${apigateway.version}</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/java-sdk-core-2.0.1.jar</systemPath>
+        </dependency>
+		<dependency>
+    		<groupId>joda-time</groupId>
+    		<artifactId>joda-time</artifactId>
+    		<version>2.8</version> 
+  		</dependency>
 	</dependencies>
 
 	<build>
