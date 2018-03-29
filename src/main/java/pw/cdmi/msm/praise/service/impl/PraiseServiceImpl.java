@@ -57,18 +57,20 @@ public class PraiseServiceImpl implements PraiseService {
 	}
 
 	@Override
-	public boolean inspectExist(Praise praise) {
+	public Praise inspectExist(Praise praise) {
 		
-		if(praiseRepsitory.findOne(Example.of(praise))!=null)
-			return true;
-		else
-		return false;
+		return praiseRepsitory.findOne(Example.of(praise))
+			 ;
+		
 	}
 
 	@Override
 	public void deletePraise(Praise praise) {
-		
-		praiseRepsitory.delete(praise);
+		Praise findOne = praiseRepsitory.findOne(Example.of(praise));
+		if(findOne==null){
+			throw new SecurityException("没有删除目标");
+		}
+		praiseRepsitory.delete(praise.getId());
 	}
 
 
