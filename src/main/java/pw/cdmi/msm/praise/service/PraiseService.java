@@ -28,7 +28,7 @@ public interface PraiseService {
 			int cursor, int maxcount);
 	
 	//检查是否已经点赞
-	public boolean inspectExist(Praise praise);
+	public Praise inspectExist(Praise praise);
 	
 	public void deletePraise(Praise praise);
 

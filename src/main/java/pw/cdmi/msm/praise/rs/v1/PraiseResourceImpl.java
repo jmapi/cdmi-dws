@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -77,7 +78,7 @@ public class PraiseResourceImpl {
 			
 			//TODO 
 			//该用户是否已经对该租户文件有点赞信息
-			if(praiseService.inspectExist(praise2)){
+			if(praiseService.inspectExist(praise2)!=null){
 				// FIXME 已经存在该用户对该租户文件点赞记录
 					throw new SecurityException("已经点赞");
 			}
@@ -86,7 +87,7 @@ public class PraiseResourceImpl {
 		case Tenancy_Comment:				
 			
 			//TODO 该用户是否已经对该租户文件有点赞信息
-			if(praiseService.inspectExist(praise2)){
+			if(praiseService.inspectExist(praise2)!=null){
 				// FIXME 已经存在该用户对该租户文件点赞记录
 				throw new  SecurityException("已经点赞");
 			}
@@ -146,13 +147,13 @@ public class PraiseResourceImpl {
 		return toListPraiserResponse(listPraiser);
 	}
 	@GetMapping(value="/users/{userId}/praised/{target_id}")	
-	public @ResponseBody Map<String, Boolean> inspectExist(@PathVariable("userId") String userId,@PathVariable("target_id") String id,@RequestParam("type") String type) {
+	public @ResponseBody Map<String, Object> inspectExist(@PathVariable("userId") String userId,@PathVariable("target_id") String id,@RequestParam("type") String type) {
 		//TODO 参数合法性检查
 		if (StringUtils.isBlank(id) || StringUtils.isBlank(type)) {
 			// FIXME 修改为客户端必要参数缺失，请检查
 			throw  new InvalidParameterException("参数错误");
 		}
-		Map<String, Boolean> hashMap = new HashMap<String, Boolean>();
+		Map<String, Object> hashMap = new HashMap<String, Object>();
 		
 		Praise praise = new Praise();
 		praise.setUserAid(userId);
@@ -160,16 +161,19 @@ public class PraiseResourceImpl {
 		praise.setTargetId(id);
 		praise.setTargetType(type);
 		
-		boolean b = praiseService.inspectExist(praise);
-	
-		hashMap.put("praised", b);
+		Praise inspectExist = praiseService.inspectExist(praise);
+		
+		hashMap.put("praised", inspectExist!=null);
+		if(inspectExist!=null){
+			hashMap.put("id",inspectExist.getId());
+		}
 		return hashMap;
 	}
-	@GetMapping(value="{id}")
-	public void deletePraise(@PathVariable("id") String praiseid,@RequestParam("userId") String  userId){
+	@DeleteMapping(value="/{id}")
+	public void deletePraise(@PathVariable("id") String praiseId,@RequestParam("user_id") String  userId){
 		Praise praise = new Praise();
 		praise.setAppId("test");
-		praise.setId(praiseid);
+		praise.setId(praiseId);
 		praise.setUserAid(userId);
 		praiseService.deletePraise(praise);
 	}
@@ -229,7 +233,7 @@ public class PraiseResourceImpl {
 			
 			//TODO 
 			//该用户是否已经对该租户文件有点赞信息
-			if(praiseService.inspectExist(praise2)){
+			if(praiseService.inspectExist(praise2)!=null){
 				// FIXME 已经存在该用户对该租户文件点赞记录
 					throw new SecurityException("已经点赞");
 			}
@@ -238,16 +242,17 @@ public class PraiseResourceImpl {
 		case Tenancy_Comment:				
 			
 			//TODO 该用户是否已经对该租户文件有点赞信息
-			if(praiseService.inspectExist(praise2)){
+			if(praiseService.inspectExist(praise2)!=null){
 				// FIXME 已经存在该用户对该租户文件点赞记录
 				throw new  SecurityException("已经点赞");
 			}
 			//TODO 记录评论的点赞数
-			Comment findOne = commentService.findOne(praise.getTarget().getId());
-			if(findOne!=null){
-				findOne.setPraiseNumber(findOne.getPraiseNumber()+1);
-				commentService.save(findOne);
+			Comment findOne = commentService.findById(praise.getTarget().getId());
+			if(findOne==null){
+				throw new  SecurityException("没有评论信息");
 			}
+			findOne.setPraiseNumber(findOne.getPraiseNumber()+1);
+			commentService.save(findOne);
 			
 			break;
 		case Tenancy_User:

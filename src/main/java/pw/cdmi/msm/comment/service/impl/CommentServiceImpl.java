@@ -37,7 +37,7 @@ public class CommentServiceImpl implements CommentService {
 	@Override
 	public Iterator<Comment> commentList(Comment comment,int cursor,int maxcount) {
 		// TODO Auto-generated method stub
-		Sort.Order order =  new Sort.Order(Sort.Direction.ASC,"createTime");
+		Sort.Order order =  new Sort.Order(Sort.Direction.DESC,"createTime");
         Sort sort = new Sort(order);	
         Pageable pageRequest = new PageRequest(cursor,maxcount,sort);
         ExampleMatcher matching = ExampleMatcher.matching().withIgnorePaths("praiseNumber");

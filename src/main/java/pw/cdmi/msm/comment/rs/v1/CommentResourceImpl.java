@@ -86,7 +86,7 @@ public class CommentResourceImpl {
 	}
 	@GetMapping("/{target_id}/amount")
 	public @ResponseBody Map<String, Object> getCommentAmount(@PathVariable("target_id")String id,@RequestParam("type") String type) {
-		//TODO 参数合法性检查
+		// TODO 参数合法性检查
 		if (StringUtils.isBlank(id) || StringUtils.isBlank(type)) {
 			// FIXME 修改为客户端必要参数缺失，请检查
 			throw new InvalidParameterException("参数错误");
@@ -181,7 +181,9 @@ public class CommentResourceImpl {
 			
 			response.setPraiseNumber(comment.getPraiseNumber());
 			response.setContent(comment.getContent());
-			response.setCreate_time(comment.getCreateTime().toString());
+			 java.text.SimpleDateFormat simpleDateFormat = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss a");
+			
+			response.setCreate_time(simpleDateFormat.format(comment.getCreateTime()));
 			response.setId(comment.getId());
 			Owner owner = new Owner();
 			owner.setId(comment.getUserAid());
