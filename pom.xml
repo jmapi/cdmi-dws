@@ -102,22 +102,19 @@
 			<version>${lombok.version}</version>
 			<scope>provided</scope>
 		</dependency>
-		
-		
+
         <dependency>
     		<groupId>org.apache.commons</groupId>
    			<artifactId>commons-lang3</artifactId>
     		<version>3.4</version>
 		</dependency>
         
-		 
-		
-		<dependency>                  
+		<dependency>
 			<groupId>smn</groupId>                  
 			<artifactId>cloud-java-sdk-smn</artifactId>                  
 			<version>2.0.2</version>                  
-			<scope>system</scope>                  
-			<systemPath>${project.basedir}/lib/cloud-java-sdk-smn-2.0.2.jar</systemPath> 
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/cloud-java-sdk-smn-2.0.2.jar</systemPath>
 		</dependency> 
 		 <dependency>
             <groupId>com.huawei.apigateway</groupId>
@@ -138,6 +135,9 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<includeSystemScope>true</includeSystemScope>
+				</configuration>
 			</plugin>
 		</plugins>
 
