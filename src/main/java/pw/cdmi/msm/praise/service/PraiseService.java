@@ -32,5 +32,7 @@ public interface PraiseService {
 	
 	public void deletePraise(Praise praise);
 
+	Praise findOne(Praise praise);
+
 	
 }

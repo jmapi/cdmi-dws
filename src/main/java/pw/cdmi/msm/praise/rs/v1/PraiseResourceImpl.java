@@ -72,7 +72,7 @@ public class PraiseResourceImpl {
 		praise2.setTargetId(praise.getTarget().getId());
 		praise2.setTargetType(praise.getTarget().getType());
 		// 根据点赞目标类型，判断点赞目标对象是否存在
-		synchronized (this){
+		
 		switch (support_target_type) {
 		case Tenancy_File:
 			
@@ -111,7 +111,7 @@ public class PraiseResourceImpl {
 	}
 		
 
-	}
+	
 	@GetMapping(value="/{target_id}/amount")
 	public @ResponseBody Map<String, Long> getPraiseAmount(@PathVariable("target_id") String id,@RequestParam("type") String type) {
 		//TODO 参数合法性检查
@@ -175,7 +175,23 @@ public class PraiseResourceImpl {
 		praise.setAppId("test");
 		praise.setId(praiseId);
 		praise.setUserAid(userId);
-		praiseService.deletePraise(praise);
+		Praise findOne = praiseService.findOne(praise);
+		if(findOne==null){
+			throw new SecurityException("目标不存在");
+		}
+		SupportTargetType type = SupportTargetType.fromName(findOne.getTargetType());
+		switch (type) {
+		case Tenancy_Comment:
+			Comment comment = commentService.findById(findOne.getTargetId());
+			comment.setPraiseNumber(comment.getPraiseNumber()-1);
+			commentService.save(comment);
+			break;
+
+		default:
+			break;
+		}
+		
+		praiseService.deletePraise(findOne);
 	}
 	/**
 	 * 转化器

@@ -50,8 +50,8 @@ public class CommentServiceImpl implements CommentService {
 
 	@Override
 	public void deleteComment(Comment comment) {
-		// TODO Auto-generated method stub
-		Comment findOne = commentRepsitory.findOne(Example.of(comment));
+		ExampleMatcher matching = ExampleMatcher.matching().withIgnorePaths("praiseNumber");
+		Comment findOne = commentRepsitory.findOne(Example.of(comment,matching));
 		if(findOne==null){
 			throw new SecurityException("你没有权限");
 		}
@@ -61,22 +61,26 @@ public class CommentServiceImpl implements CommentService {
 
 	@Override
 	public long countComment(Comment comment) {
-		// TODO Auto-generated method stub
-		return commentRepsitory.count(Example.of(comment));
+		
+		
+//		long countByTargetIdAndTargetType = commentRepsitory.countByTargetIdAndTargetType(comment.getTargetId(),comment.getTargetType());
+//		return countByTargetIdAndTargetType;
+		ExampleMatcher matching = ExampleMatcher.matching().withIgnorePaths("praiseNumber");
+		return commentRepsitory.count(Example.of(comment,matching));
 	}
 
 	@Override
 	public boolean inspectExist(Comment comment) {
-		// TODO Auto-generated method stub
-		if(commentRepsitory.findOne(Example.of(comment))==null)
+		ExampleMatcher matching = ExampleMatcher.matching().withIgnorePaths("praiseNumber");
+		if(commentRepsitory.findOne(Example.of(comment,matching))==null)
 			return true;
 		return false;
 	}
 
 	@Override
 	public Comment findComment(Comment comment) {
-		// TODO Auto-generated method stub
-		return commentRepsitory.findOne(Example.of(comment));
+		ExampleMatcher matching = ExampleMatcher.matching().withIgnorePaths("praiseNumber");
+		return commentRepsitory.findOne(Example.of(comment,matching));
 	}
 	
 }

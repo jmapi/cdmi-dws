@@ -16,6 +16,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
 import pw.cdmi.msm.praise.model.PraiseTarget;
+import pw.cdmi.msm.praise.model.SupportTargetType;
 import pw.cdmi.msm.praise.model.entities.Praise;
 import pw.cdmi.msm.praise.repositories.PraiseRepsitory;
 import pw.cdmi.msm.praise.rs.PraiseRequest;
@@ -67,12 +68,19 @@ public class PraiseServiceImpl implements PraiseService {
 	@Override
 	public void deletePraise(Praise praise) {
 		Praise findOne = praiseRepsitory.findOne(Example.of(praise));
+		
 		if(findOne==null){
 			throw new SecurityException("没有删除目标");
 		}
+		
+		
 		praiseRepsitory.delete(praise.getId());
 	}
-
+	@Override
+	public Praise findOne(Praise praise){
+		
+		return praiseRepsitory.findOne(Example.of(praise));
+	}
 
 
 }
