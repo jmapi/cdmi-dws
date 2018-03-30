@@ -6,7 +6,7 @@ server:
 spring:
   datasource:
     url: jdbc:mysql://172.16.0.5:8635/msm?useUnicode=true&characterEncoding=UTF8&autoReconnect=true&socketTimeout=1800000&useSSL=false
-    username: cloudapp_user
+    username: cloud_user
     password: 6;aVhFRF8<ms
     driverClassName: com.mysql.jdbc.Driver
 
