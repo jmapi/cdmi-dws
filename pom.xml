@@ -128,6 +128,24 @@
     		<artifactId>joda-time</artifactId>
     		<version>2.8</version> 
   		</dependency>
+
+		<!--配置项解密-->
+		<dependency>
+			<groupId>com.github.ulisesbocchio</groupId>
+			<artifactId>jasypt-spring-boot-starter</artifactId>
+			<version>1.16</version>
+		</dependency>
+		<dependency>
+			<groupId>pw.cdmi.box</groupId>
+			<artifactId>wcc_crypt</artifactId>
+			<version>3.5.2.RELEASE</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-log4j12</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -140,7 +158,7 @@
 				</configuration>
 			</plugin>
 		</plugins>
-
+	
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
@@ -150,7 +168,6 @@
             </resource>
             <resource>
                 <directory>src/main/resources</directory>
-                <!-- 是否替换@xx@表示的maven properties属性值 -->
                 <filtering>true</filtering>
                 <includes>
                     <include>application.yml</include>
@@ -158,6 +175,8 @@
                 </includes>
             </resource>
         </resources>
+          
+                <!-- 是否替换@xx@表示的maven properties属性值 -->
 	</build>
 
     <profiles>
@@ -170,6 +189,7 @@
                 <profileActive>dev</profileActive>
             </properties>
         </profile>
+         
         <profile>
             <id>jmapi</id>
             <properties>
@@ -188,5 +208,6 @@
                 <profileActive>filepro</profileActive>
             </properties>
         </profile>
+        
     </profiles>
 </project>
