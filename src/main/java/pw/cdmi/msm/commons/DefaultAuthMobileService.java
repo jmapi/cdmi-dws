@@ -12,7 +12,7 @@ public class DefaultAuthMobileService implements AuthMobileService {
 	@Override
 	public void sendMessage(String mobile,String headMessage) {
 		String authNumber = NumberGenerate.authNumber();
-		sendMessageService.send(mobile, headMessage+":"+authNumber);
+		sendMessageService.send(mobile, headMessage+authNumber);
 		authMobileRepository.save(mobile, authNumber);		
 	}
 

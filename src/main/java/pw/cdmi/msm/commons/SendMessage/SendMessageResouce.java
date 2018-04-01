@@ -5,8 +5,6 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,8 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.smn.http.HttpMethod;
 
 import pw.cdmi.msm.commons.AuthMobileService;
 
@@ -27,14 +23,15 @@ public class SendMessageResouce {
 	private AuthMobileService authMobileService;
 	
 	@PostMapping("/sms/checkcode")
-	public void SendMessage(@RequestBody Message message){
+	public void SendMessage(@RequestParam String mobile, @RequestParam(required=false) String messageTemplateId){
 		
-		if(message == null|| StringUtils.isBlank(message.getMobile())||StringUtils.isBlank(message.getHeadMessage())){
+		if(StringUtils.isBlank(mobile)){
 			throw new SecurityException("参数错误");
 		}
-		authMobileService.sendMessage("+86"+message.getMobile(), message.getHeadMessage());
+		String content = "";
+		authMobileService.sendMessage("+86"+mobile, content);
 	}
-	@PutMapping("/sms/")
+	@PutMapping("/sms/checkcode")
 	public @ResponseBody Map<String, Object> authMobile(@RequestBody CheckRequest checkRequest){
 		if(checkRequest==null||StringUtils.isBlank(checkRequest.getMobile())||StringUtils.isBlank(checkRequest.getCode())){
 			throw new SecurityException("参数错误");
