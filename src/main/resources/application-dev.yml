@@ -16,9 +16,4 @@ spring:
 #配置日志
 logging:
   #配置日志文件路径
-  level:
-    xatu.zsl: debug #不同目录下的日志可配置不同级别
-    org.springfromework.web: info
-    org.hibernate: error
- 
-  file: log\myspringboot.log
+  config: classpath:logback-spring-dev.xml
