@@ -1,4 +1,4 @@
-package pw.cdmi.msm.commons.SendMessage;
+package pw.cdmi.msm.sms.resouce;
 
 import java.util.HashMap;
 import java.util.List;
@@ -18,7 +18,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import pw.cdmi.msm.commons.AuthMobileService;
+import pw.cdmi.msm.sms.model.CheckRequest;
+import pw.cdmi.msm.sms.model.MsmRequest;
+import pw.cdmi.msm.sms.service.AuthMobileService;
+
 
 @RestController
 @RequestMapping("/messages/v1")
@@ -30,7 +33,7 @@ public class SendMessageResouce {
 	private AuthMobileService authMobileService;
 	
 	@PostMapping("/sms/checkcode")
-	public void SendMessage(@RequestBody Msm message){
+	public void SendMessage(@RequestBody MsmRequest message){
 		
 		if(StringUtils.isBlank(message.getMobile())){
 			throw new SecurityException("参数错误");

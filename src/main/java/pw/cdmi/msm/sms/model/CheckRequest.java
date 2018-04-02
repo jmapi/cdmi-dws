@@ -1,4 +1,4 @@
-package pw.cdmi.msm.commons.SendMessage;
+package pw.cdmi.msm.sms.model;
 
 import lombok.Data;
 

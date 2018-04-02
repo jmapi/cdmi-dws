@@ -1,6 +1,10 @@
-package pw.cdmi.msm.commons;
+package pw.cdmi.msm.sms.service.imp;
 
 import org.springframework.stereotype.Component;
+
+
+
+import pw.cdmi.msm.sms.service.SendMessageService;
 
 import com.smn.client.AkskSmnClient;
 import com.smn.client.SmnClient;

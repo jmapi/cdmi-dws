@@ -1,4 +1,4 @@
-package pw.cdmi.msm.commons;
+package pw.cdmi.msm.sms.service;
 
 public interface AuthMobileService {
 	/**

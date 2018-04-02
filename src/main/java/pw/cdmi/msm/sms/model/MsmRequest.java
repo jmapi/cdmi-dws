@@ -1,9 +1,9 @@
-package pw.cdmi.msm.commons.SendMessage;
+package pw.cdmi.msm.sms.model;
 
 import lombok.Data;
 
 @Data
-public class Msm {
+public class MsmRequest {
 	private String mobile;
 	private String templatesId;
 }
