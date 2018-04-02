@@ -5,5 +5,5 @@ import lombok.Data;
 @Data
 public class Msm {
 	private String mobile;
-
+	private String templatesId;
 }

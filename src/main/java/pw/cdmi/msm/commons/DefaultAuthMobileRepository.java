@@ -14,20 +14,20 @@ public class DefaultAuthMobileRepository  implements AuthMobileRepository{
 	
 	@Override
 	public void save(String key, String value) {
-		Cache cache = cacheManager.getCache("test");
+		Cache cache = cacheManager.getCache("msm-cache");
 		cache.put(key, value);		
 	}
 
 	@Override
 	public void deleteObject(String key) {
-		Cache cache = cacheManager.getCache("test");
+		Cache cache = cacheManager.getCache("msm-cache");
 		cache.evict(key);
 		
 	}
 
 	@Override
 	public Object getValue(String key) {
-		Cache cache = cacheManager.getCache("test");
+		Cache cache = cacheManager.getCache("msm-cache");
 		ValueWrapper valueWrapper = cache.get(key);
 		if(valueWrapper==null){
 			return null;

@@ -1,4 +1,5 @@
-package pw.cdmi.msm;
+package pw.cdmi.core.encryption;
+
 
 import org.jasypt.encryption.StringEncryptor;
 import org.springframework.boot.SpringApplication;
@@ -9,7 +10,6 @@ import org.springframework.context.annotation.ImportResource;
 import pw.cdmi.core.encryption.AesCBCEncryptor;
 
 @SpringBootApplication
-@ImportResource(locations = "classpath*:META-INF/spring/*.bean.xml")
 @EnableCaching
 public class Application {
 	//自定义配置项解密类

@@ -2,7 +2,11 @@ spring:
   application:
     name: cdmi-dws-service
   cache:
-    cache-name: test
+    cache-name: msm-cache
     guava.spec: maximumSize=500,expireAfterWrite=10m
   profiles:
     active: @profileActive@
+MessageTemplates:
+  templates:
+    default: 你的验证码为：
+    
