@@ -8,10 +8,6 @@
 package pw.cdmi.core.encryption;
 
 import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
-import org.springframework.beans.factory.annotation.Autowired;
 
 /************************************************************
  * @Description:
@@ -21,10 +17,11 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @Project Alpha CDMI Service Platform, cdmi-dws-web Component. 2018/4/1
  ************************************************************/
 
-@RunWith(JUnit4.class)
+//@RunWith(JUnit4.class)
 public class AesCBCEncryptorTest {
-    @Test
-    public void testDecrypt() {
+//    @Test
+
+    public static void main(String[] args) {
         AesCBCEncryptor encryptor = new AesCBCEncryptor();
 
         String decode = encryptor.decrypt("d2NjX2NyeXB0ATQxNDU1MzVGNDM0MjQzOzMzMzM0NDMyMzM0MzMwNDY0MzM3MzUzMjQxMzczNTQyNDUzMTMyNDQ0NjQ2MzkzNjQxMzAzOTMyMzYzODM0Mzc7OzM1MzAzMDMwMzA7NzM5NkE3NkQyODQ4RkY5RjQ1MDYxQTg0QzczMTlGMjc7RTU2ODA0NTgxMjJGNzQzNDs,d2NjX2NyeXB0ATQxNDU1MzVGNDM0MjQzOzQyNDQ0MzMzMzkzMDMxNDE0NDMyNDUzNDMyMzYzMzM2MzIzMDM5NDQzODM0NDUzMjM4NDQzODM2MzczMjM1MzUzMDM1MzM0MzMwMzUzMTQyMzUzMzMyNDUzMjM3MzAzNDM0NDYzMDMwMzQ0MTQ0NDIzMjQzMzQ0MzQ2MzU0NTMzMzI0NTM0Mzg0MzM2NDE0NTM3NDYzODQxNDYzMDQ1MzU0MjM0MzUzMDMwMzczMzQ0Mzg0NjQxNDMzNzM5NDU0MTszMTM1MzAzMTM1MzczNDMyMzgzMzM5MzQzMjszNTMwMzAzMDMwO0RBOUE1OEY2RDY5Q0Q3MjlEOTRCMzYyNDk0NDNCOTQ4Ow");
