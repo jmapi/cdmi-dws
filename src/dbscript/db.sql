@@ -20,7 +20,7 @@ SET FOREIGN_KEY_CHECKS=0;
 -- ----------------------------
 DROP TABLE IF EXISTS `p_activity`;
 CREATE TABLE `p_activity` (
-  `id` varchar(255) NOT NULL,
+  `id` varchar(128) NOT NULL,
   `activity_aid` varchar(255) DEFAULT NULL,
   `activity_arranges` varchar(255) DEFAULT NULL,
   `activity_cost` int(11) DEFAULT NULL,
@@ -59,7 +59,7 @@ CREATE TABLE `p_activity` (
 -- ----------------------------
 DROP TABLE IF EXISTS `p_apply`;
 CREATE TABLE `p_apply` (
-  `id` varchar(255) NOT NULL,
+  `id` varchar(128) NOT NULL,
   `activity_aid` varchar(255) DEFAULT NULL,
   `activity_id` varchar(255) NOT NULL,
   `activity_tid` varchar(255) DEFAULT NULL,
@@ -77,7 +77,7 @@ CREATE TABLE `p_apply` (
 -- ----------------------------
 DROP TABLE IF EXISTS `p_participate`;
 CREATE TABLE `p_participate` (
-  `id` varchar(255) NOT NULL,
+  `id` varchar(128) NOT NULL,
   `activity_aid` varchar(255) DEFAULT NULL,
   `activity_id` varchar(255) NOT NULL,
   `activity_tid` varchar(255) DEFAULT NULL,
@@ -95,7 +95,7 @@ CREATE TABLE `p_participate` (
 -- ----------------------------
 DROP TABLE IF EXISTS `p_photo_album`;
 CREATE TABLE `p_photo_album` (
-  `id` varchar(255) NOT NULL,
+  `id` varchar(128) NOT NULL,
   `activity_id` varchar(255) NOT NULL,
   `app_id` varchar(255) NOT NULL,
   `create_time` datetime DEFAULT NULL,
@@ -111,7 +111,7 @@ CREATE TABLE `p_photo_album` (
 -- ----------------------------
 DROP TABLE IF EXISTS `soc_message`;
 CREATE TABLE `soc_message` (
-  `id` varchar(255) NOT NULL,
+  `id` varchar(128) NOT NULL,
   `app_id` varchar(255) NOT NULL,
   `content` varchar(2000) NOT NULL,
   `create_date` datetime DEFAULT NULL,
@@ -131,7 +131,7 @@ CREATE TABLE `soc_message` (
 -- ----------------------------
 DROP TABLE IF EXISTS `soc_notify_user_message`;
 CREATE TABLE `soc_notify_user_message` (
-  `id` varchar(255) NOT NULL,
+  `id` varchar(128) NOT NULL,
   `app_id` varchar(255) NOT NULL,
   `content` varchar(3000) DEFAULT NULL,
   `event_object_id` varchar(255) DEFAULT NULL,
@@ -156,7 +156,7 @@ CREATE TABLE `soc_notify_user_message` (
 -- ----------------------------
 DROP TABLE IF EXISTS `t_comment`;
 CREATE TABLE `t_comment` (
-  `id` varchar(255) NOT NULL,
+  `id` varchar(128) NOT NULL,
   `app_id` varchar(255) NOT NULL,
   `content` varchar(255) NOT NULL,
   `create_time` datetime NOT NULL,
@@ -180,7 +180,7 @@ CREATE TABLE `t_comment` (
 -- ----------------------------
 DROP TABLE IF EXISTS `t_complain`;
 CREATE TABLE `t_complain` (
-  `id` varchar(255) NOT NULL,
+  `id` varchar(128) NOT NULL,
   `app_id` varchar(255) DEFAULT NULL,
   `complainant_id` varchar(255) DEFAULT NULL,
   `complainant_sid` varchar(255) DEFAULT NULL,
@@ -209,7 +209,7 @@ CREATE TABLE `t_complain` (
 -- ----------------------------
 DROP TABLE IF EXISTS `t_praise`;
 CREATE TABLE `t_praise` (
-  `id` varchar(255) NOT NULL,
+  `id` varchar(128) NOT NULL,
   `app_id` varchar(255) NOT NULL,
   `create_time` datetime NOT NULL,
   `head_image` varchar(255) DEFAULT NULL,
