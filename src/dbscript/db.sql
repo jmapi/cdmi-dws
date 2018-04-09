@@ -1,7 +1,19 @@
-create database if not exists `msm`;
+/*
+Navicat MySQL Data Transfer
 
-use `msm`;
+Source Server         : 本地
+Source Server Version : 50720
+Source Host           : localhost:3308
+Source Database       : test
 
+Target Server Type    : MYSQL
+Target Server Version : 50720
+File Encoding         : 65001
+
+Date: 2018-04-09 17:07:18
+*/
+
+SET FOREIGN_KEY_CHECKS=0;
 
 -- ----------------------------
 -- Table structure for p_activity
