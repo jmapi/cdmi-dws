@@ -107,7 +107,7 @@ public class PraiseResourceImpl {
 		default:
 		//	throw new AWSServiceException(SystemReason.UnImplemented);
 		}
-		praiseService.praiseObject(praise2);
+		praiseService.createPraise(praise2);
 	}
 		
 
@@ -209,6 +209,8 @@ public class PraiseResourceImpl {
 			response.setId(next.getUserAid());
 			response.setHeadImage(next.getHeadImage());
 			response.setName(next.getUserName());
+			java.text.SimpleDateFormat simpleDateFormat = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			response.setCreateTime(simpleDateFormat.format(next.getCreateTime()));
 			list.add(response);
 		}
 		return list;
@@ -222,6 +224,7 @@ public class PraiseResourceImpl {
 				|| StringUtils.isBlank(praise.getTarget().getId())
 				|| StringUtils.isBlank(praise.getTarget().getType())
 				|| StringUtils.isBlank(praise.getOwner().getId())
+				|| StringUtils.isBlank(praise.getTarget().getOwnerId())
 				) {
 			// FIXME 修改为客户端必要参数缺失，请检查
 			throw  new InvalidParameterException("参数错误");
@@ -241,6 +244,7 @@ public class PraiseResourceImpl {
 		praise2.setHeadImage(praise.getOwner().getHeadImage());
 		praise2.setAppId("test");
 		praise2.setTargetId(praise.getTarget().getId());
+		praise2.setOwnerId(praise.getTarget().getOwnerId());
 		praise2.setTargetType(praise.getTarget().getType());
 		// 根据点赞目标类型，判断点赞目标对象是否存在
 		synchronized (this){
@@ -279,7 +283,24 @@ public class PraiseResourceImpl {
 		default:
 		//	throw new AWSServiceException(SystemReason.UnImplemented);
 		}
-		praiseService.praiseObject(praise2);
+		praiseService.createPraise(praise2);
 	}
 	}
+	@GetMapping("/praise/{id}/target")
+	public Map<String,Object> target(@PathVariable("id")String id){
+		if(StringUtils.isBlank(id)){
+			throw new SecurityException("id is null");
+		}
+		Map<String, Object> hashMap = new HashMap<String,Object>();
+		Praise praise = new Praise();
+		praise.setId(id);
+		Praise findPraise = praiseService.findOne(praise);
+		if(findPraise != null)
+		{
+			hashMap.put("targetId", findPraise.getTargetId());
+			hashMap.put("targeType", findPraise.getTargetType());
+		}
+		return hashMap;
+	}
+	
 }

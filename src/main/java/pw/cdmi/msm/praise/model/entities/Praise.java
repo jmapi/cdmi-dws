@@ -56,7 +56,10 @@ public class Praise implements MultiTenancy, MultiSite,MultiApplication{
 	
 	@Column(name="praiser_name", nullable = true)
 	private String userName;
-	
+	@Column(name="praiser_type", nullable = true)
+	private String userType;
+
+	private String ownerId;
 	@Column(name="head_Image", nullable = true)
 	private String headImage;					//点赞的对象的头像地址
 	

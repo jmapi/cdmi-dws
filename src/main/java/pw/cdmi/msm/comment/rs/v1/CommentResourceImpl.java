@@ -181,7 +181,7 @@ public class CommentResourceImpl {
 			
 			response.setPraiseNumber(comment.getPraiseNumber());
 			response.setContent(comment.getContent());
-			 java.text.SimpleDateFormat simpleDateFormat = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss a");
+			 java.text.SimpleDateFormat simpleDateFormat = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			
 			response.setCreate_time(simpleDateFormat.format(comment.getCreateTime()));
 			response.setId(comment.getId());
@@ -209,7 +209,8 @@ public class CommentResourceImpl {
 						
 						|| StringUtils.isBlank(comment.getOwner().getId())
 						|| StringUtils.isBlank(comment.getTarget().getId())
-						|| StringUtils.isBlank(comment.getTarget().getType())) {
+						|| StringUtils.isBlank(comment.getTarget().getType())
+						|| StringUtils.isBlank(comment.getTarget().getOwnerId())) {
 					// FIXME 修改为客户端必要参数缺失，请检查
 					throw new InvalidParameterException("参数错误");
 				}
@@ -229,11 +230,31 @@ public class CommentResourceImpl {
 				comment2.setContent(comment.getContent());
 				comment2.setTargetId(comment.getTarget().getId());
 				comment2.setTargetType(comment.getTarget().getType());
+				comment2.setOwnerId(comment.getTarget().getOwnerId());
 				
 				comment2.setAppId("test");
 				//包装点赞对象
 					
 				commentService.commentObject(comment2);
+	}
+	
+	@GetMapping("/comment/{id}")
+	public Map<String,Object> target(@PathVariable("id")String id){
+		if(StringUtils.isBlank(id)){
+			throw new SecurityException("id is null");
+		}
+		Map<String, Object> hashMap = new HashMap<String,Object>();
+		Comment comment = new Comment();
+		comment.setId(id);
+		Comment findComment = commentService.findComment(comment);
+		if(findComment != null)
+		{
+			hashMap.put("targetId", findComment.getTargetId());
+			hashMap.put("targeType",findComment.getTargetType());
+			hashMap.put("content",  findComment.getContent());
+			hashMap.put("createTime", findComment.getCreateTime().getTime());
+		}
+		return hashMap;
 	}
 
 }

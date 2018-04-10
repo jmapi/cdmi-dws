@@ -50,9 +50,13 @@ public class Comment implements MultiTenancy, MultiSite, MultiApplication {
 	@Column(name = "commentator_tid", nullable = true)
 	@CreatedBy
 	private String userTid; // 对应的租户账号Id
-
+	
+	private String ownerId;
 	@Column(name = "commentator_name", nullable = true)
 	private String userName; // 评论人名字
+	
+	@Column(name = "commentator_type", nullable = true)
+	private String userType;
 
 	@Column(name = "head_image", nullable = true)
 	private String headImage; // 评论人头像

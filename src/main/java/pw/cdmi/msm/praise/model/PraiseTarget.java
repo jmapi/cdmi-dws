@@ -6,5 +6,6 @@ import lombok.Data;
 @Data
 public class PraiseTarget {
 	private String id;
+	private String ownerId;
 	private String type;
 }

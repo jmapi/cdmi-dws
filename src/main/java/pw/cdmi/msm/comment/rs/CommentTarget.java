@@ -6,4 +6,5 @@ import lombok.Data;
 public class CommentTarget {
 	private String id;
 	private String type;
+	private String ownerId;
 }

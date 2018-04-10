@@ -7,4 +7,5 @@ public class ListPraiserResponse {
 	private String id;				
 	private String name;
 	private String headImage;
+	private String createTime;
 }
