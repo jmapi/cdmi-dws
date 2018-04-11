@@ -13,6 +13,7 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.Table;
 
 import net.sf.json.JSONObject;
@@ -35,9 +36,11 @@ import pw.cdmi.msm.message.model.ReferEvent;
  * @version cdmi Service Platform, 2016年5月26日
  ***********************************************************
  */
-@Entity
-@Table(name = "soc_notify_user_message")
 @Data
+@Entity
+@Table(name = "soc_notify_user_message", indexes = {
+		@Index(name = "notify_1" ,columnList = "notifyAid")
+})
 public class NotifyUserMessage {
 	@Id
 	@GenericGenerator(name = "system-uuid", strategy = "uuid")

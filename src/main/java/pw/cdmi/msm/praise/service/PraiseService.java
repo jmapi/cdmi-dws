@@ -18,7 +18,7 @@ import pw.cdmi.msm.praise.rs.PraiseRequest;
  */
 public interface PraiseService {
 	//对目标对象进行点赞
-	public void createPraise(Praise praise);
+	public String createPraise(Praise praise);
 	
 	//获得目标对象的点赞次数，如果得到Long的最大值，则不再增加
 	public long getPrainseNumber(Praise praise);
@@ -32,7 +32,7 @@ public interface PraiseService {
 	
 	public void deletePraise(Praise praise);
 
-	Praise findOne(Praise praise);
+	public Praise findOne(Praise praise);
 
 	
 }

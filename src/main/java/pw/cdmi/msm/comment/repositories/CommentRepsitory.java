@@ -2,6 +2,7 @@ package pw.cdmi.msm.comment.repositories;
 
 import java.util.List;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.NoRepositoryBean;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.QueryByExampleExecutor;
@@ -23,7 +24,7 @@ public interface CommentRepsitory extends PagingAndSortingRepository<Comment, St
 	 * @param targetId
 	 * @return
 	 */
-	public List<Comment> findByTargetIdAndTargetType(String targetId,String targetType);
+	public List<Comment> findByTargetIdAndTargetType(String targetId,String targetType,Pageable pageable);
 	/**
 	 * 删除目标id评论
 	 * @param id

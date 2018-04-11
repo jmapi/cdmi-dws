@@ -44,16 +44,15 @@ public class PraiseServiceImpl implements PraiseService {
 	@Autowired
 	private MessageService messageService;
 	@Override
-	public void createPraise(Praise praise) {
+	public String createPraise(Praise praise) {
 		//FIXME 自动创建包含当前用户请求环境信息，并设置到对象中。
 
 		praise.setCreateTime(new Date());
-		praiseRepsitory.save(praise);	
-		if(!StringUtils.isBlank(praise.getOwnerId())){
-			
+		Praise save = praiseRepsitory.save(praise);
+		if(!StringUtils.isBlank(praise.getOwnerId())&&!praise.getOwnerId().equals(praise.getUserAid())){			
 			messageService.createNotifyUserMessage(toNotifyUserMessage(praise));
 		}
-		
+		return save.getId();
 		
 	}
 	private NotifyUserMessage toNotifyUserMessage(Praise save){
@@ -102,7 +101,7 @@ public class PraiseServiceImpl implements PraiseService {
 	@Override
 	public long getPrainseNumber(Praise praise) {
 		
-		return praiseRepsitory.count(Example.of(praise));		
+		return praiseRepsitory.countByTargetIdAndTargetType(praise.getTargetId(), praise.getTargetType());		
 	}
 	@Override
 	public Iterator<Praise> listPraiser(Praise praise,int cursor,int maxcount) {
@@ -112,16 +111,18 @@ public class PraiseServiceImpl implements PraiseService {
 		Sort.Order order =  new Sort.Order(Sort.Direction.DESC,"createTime");
         Sort sort = new Sort(order);	
         Pageable pageRequest = new PageRequest(cursor,maxcount,sort);
-		Page<Praise> findAll = praiseRepsitory.findAll(Example.of(praise), pageRequest);
+
+        
+		List<Praise> findAll = praiseRepsitory.findByTargetIdAndTargetType(praise.getTargetId(), praise.getTargetType(), pageRequest);
 		
-		return findAll.getContent().iterator();
-//		return praiseRepsitory.findAll();
+		return findAll.iterator();
+
 	}
 
 	@Override
 	public Praise inspectExist(Praise praise) {
 		
-		return praiseRepsitory.findOne(Example.of(praise));
+		return praiseRepsitory.findByTargetIdAndUserAidAndTargetType(praise.getTargetId(), praise.getUserAid(), praise.getTargetType());
 		
 	}
 

@@ -46,7 +46,7 @@ public class PraiseResourceImpl {
 	
 	
 	@PostMapping
-	public void praise(@RequestBody PraiseRequest praise) {
+	public @ResponseBody Map<String, Object> praise(@RequestBody PraiseRequest praise) {
 		//TODO 参数合法性检查
 		
 		if (praise == null || praise.getTarget() == null
@@ -107,7 +107,10 @@ public class PraiseResourceImpl {
 		default:
 		//	throw new AWSServiceException(SystemReason.UnImplemented);
 		}
-		praiseService.createPraise(praise2);
+		HashMap<String, Object> hashMap = new HashMap<String, Object>();
+		hashMap.put("newid", praiseService.createPraise(praise2));
+		return hashMap;
+		
 	}
 		
 
@@ -217,7 +220,7 @@ public class PraiseResourceImpl {
 	}
 	//-------------------------------------test
 	@PostMapping("/test")
-	public void testpraise(@RequestBody TestPraiseRequest praise) {
+	public @ResponseBody HashMap<String, Object> testpraise(@RequestBody TestPraiseRequest praise) {
 		//TODO 参数合法性检查
 		
 		if (praise == null || praise.getTarget() == null || praise.getOwner() == null
@@ -283,7 +286,10 @@ public class PraiseResourceImpl {
 		default:
 		//	throw new AWSServiceException(SystemReason.UnImplemented);
 		}
-		praiseService.createPraise(praise2);
+		String createPraise = praiseService.createPraise(praise2);
+		HashMap<String, Object> hashMap = new HashMap<String, Object>();
+		hashMap.put("newid", createPraise);
+		return hashMap;
 	}
 	}
 	@GetMapping("/praise/{id}/target")

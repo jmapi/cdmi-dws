@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -19,7 +20,10 @@ import pw.cdmi.share.model.MultiTenancy;
 
 @Data
 @Entity
-@Table(name = "t_comment")
+@Table(name = "t_comment",indexes = {
+		@Index(name = "comment_1" , columnList = "target_id"),
+		@Index(name = "comment_2 " , columnList = "owner_id")
+})
 public class Comment implements MultiTenancy, MultiSite, MultiApplication {
 	@Id
 	@GenericGenerator(name = "system-uuid", strategy = "uuid")
@@ -50,7 +54,7 @@ public class Comment implements MultiTenancy, MultiSite, MultiApplication {
 	@Column(name = "commentator_tid", nullable = true)
 	@CreatedBy
 	private String userTid; // 对应的租户账号Id
-	
+	@Column(name = "owner_id", nullable = false)
 	private String ownerId;
 	@Column(name = "commentator_name", nullable = true)
 	private String userName; // 评论人名字

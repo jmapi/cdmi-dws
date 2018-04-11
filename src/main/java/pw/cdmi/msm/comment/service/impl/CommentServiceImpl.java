@@ -2,6 +2,7 @@ package pw.cdmi.msm.comment.service.impl;
 
 import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
 
 import javax.transaction.Transactional;
 
@@ -99,7 +100,7 @@ public class CommentServiceImpl implements CommentService {
 		if (fromName == null) {
 			throw new SecurityException("SupportTargetType is null");
 		}
-		if(!StringUtils.isBlank(comment.getOwnerId())){
+		if(!StringUtils.isBlank(comment.getOwnerId())&&!comment.getOwnerId().equals(comment.getUserAid())){
 			
 			messageService.createNotifyUserMessage(toNotifyUserMessage(comment));
 		}
@@ -144,11 +145,10 @@ public class CommentServiceImpl implements CommentService {
 		Sort.Order order =  new Sort.Order(Sort.Direction.DESC,"createTime");
         Sort sort = new Sort(order);	
         Pageable pageRequest = new PageRequest(cursor,maxcount,sort);
-        ExampleMatcher matching = ExampleMatcher.matching().withIgnorePaths("praiseNumber");
   
-		Page<Comment> findAll = commentRepsitory.findAll(Example.of(comment,matching), pageRequest);
+		List<Comment> findAll = commentRepsitory.findByTargetIdAndTargetType(comment.getTargetId(), comment.getTargetType(), pageRequest);
 		
-		return findAll.getContent().iterator();
+		return findAll.iterator();
 		
 	}
 
@@ -179,10 +179,10 @@ public class CommentServiceImpl implements CommentService {
 	public long countComment(Comment comment) {
 		
 		
-//		long countByTargetIdAndTargetType = commentRepsitory.countByTargetIdAndTargetType(comment.getTargetId(),comment.getTargetType());
+		long countByTargetIdAndTargetType = commentRepsitory.countByTargetIdAndTargetType(comment.getTargetId(),comment.getTargetType());
 //		return countByTargetIdAndTargetType;
-		ExampleMatcher matching = ExampleMatcher.matching().withIgnorePaths("praiseNumber");
-		return commentRepsitory.count(Example.of(comment,matching));
+	
+		return countByTargetIdAndTargetType;
 	}
 
 	@Override

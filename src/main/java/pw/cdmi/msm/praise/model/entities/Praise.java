@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.Table;
 
 import lombok.Data;
@@ -25,7 +26,9 @@ import pw.cdmi.share.model.MultiTenancy;
  */
 @Data
 @Entity
-@Table(name="t_praise")
+@Table(name="t_praise",indexes = {
+		@Index(name  = "praise_1",columnList="target_id")
+})
 public class Praise implements MultiTenancy, MultiSite,MultiApplication{
 	@Id
 	@GenericGenerator(name = "system-uuid", strategy = "uuid")

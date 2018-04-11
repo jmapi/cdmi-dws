@@ -30,7 +30,7 @@ public class PraiseTest {
 		praiseTarget.setOwnerId("目标的主人id");
 		praiseTarget.setType("Tenancy_File");
 		
-		owner.setId("点赞人id");
+		owner.setId("点赞人");
 		owner.setName("点赞人name");
 		owner.setHeadImage("头像");
 		testPraiseRequest.setOwner(owner);
