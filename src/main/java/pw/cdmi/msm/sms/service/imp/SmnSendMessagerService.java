@@ -18,7 +18,7 @@ import com.smn.response.sms.SmsPublishResponse;
 public class SmnSendMessagerService implements SendMessageService {
 
 	@Override
-	public void send(String mobile, String value) {
+	public void send(String mobile, String value,String SignId) {
 		SmnClient smnClient = new AkskSmnClient(
 		        "526GZIMDCZ2JIZQJQX1P",
 		        "diKMQshRF63CpMeDVatp0zGf0GU9ls4SqW4nt2cd",
@@ -30,7 +30,8 @@ public class SmnSendMessagerService implements SendMessageService {
         // 设置参数,接收手机号，短信内容，短信签名ID
         smnRequest.setEndpoint(mobile)
                 .setMessage(value)
-                .setSignId("36778e025ec747b385c3673410587246");
+                .setSignId(SignId);
+        //        .setSignId("36778e025ec747b385c3673410587246");
         // 发送短信
         try {
             SmsPublishResponse res = smnClient.sendRequest(smnRequest);

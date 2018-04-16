@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import pw.cdmi.msm.commons.NumberGenerate;
+import pw.cdmi.msm.sms.model.SignTypeSupper;
+import pw.cdmi.msm.sms.model.SmsSignId;
 import pw.cdmi.msm.sms.repository.AuthMobileRepository;
 import pw.cdmi.msm.sms.service.AuthMobileService;
 import pw.cdmi.msm.sms.service.SendMessageService;
@@ -15,10 +17,28 @@ public class DefaultAuthMobileService implements AuthMobileService {
 	private AuthMobileRepository authMobileRepository;
 	@Autowired
 	private SendMessageService sendMessageService;
+	
+	
 	@Override
-	public void sendMessage(String mobile,String headMessage) {
+	public void sendMessage(String mobile,String headMessage,SignTypeSupper type) {
+		
+		String signId = null;
+		switch (type) {
+		case sign_file:
+			signId = SmsSignId.file;
+			break;
+		case sign_jushu:
+			signId = SmsSignId.jushu;
+			break;
+		case sign_huayiyun:
+			signId = SmsSignId.huayiyun;
+			break;
+		default:
+			
+		}
+		String endMessage = "（有效期十分钟，请完成验证），如非本人操作，请忽略本消息";
 		String authNumber = NumberGenerate.authNumber();
-		sendMessageService.send(mobile, headMessage+authNumber);
+		sendMessageService.send(mobile, headMessage+authNumber+endMessage,signId);
 		authMobileRepository.save(mobile, authNumber);		
 	}
 

@@ -6,4 +6,5 @@ import lombok.Data;
 public class MsmRequest {
 	private String mobile;
 	private String templatesId;
+	private SignTypeSupper signType;
 }

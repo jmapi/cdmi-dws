@@ -48,7 +48,7 @@ public class SendMessageResouce {
 				 content = templates.get("default");
 			 }
 		}
-		authMobileService.sendMessage(message.getMobile(), content);
+		authMobileService.sendMessage(message.getMobile(), content ,message.getSignType());
 	}
 	@PutMapping("/sms/checkcode")
 	public @ResponseBody Map<String, Object> authMobile(@RequestBody CheckRequest checkRequest){
