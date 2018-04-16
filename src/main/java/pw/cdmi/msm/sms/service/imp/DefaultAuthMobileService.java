@@ -23,6 +23,11 @@ public class DefaultAuthMobileService implements AuthMobileService {
 	public void sendMessage(String mobile,String headMessage,SignTypeSupper type) {
 		
 		String signId = null;
+		if(type == null){
+			//默认
+			signId = SmsSignId.huayiyun;
+		}
+		else
 		switch (type) {
 		case sign_file:
 			signId = SmsSignId.file;
@@ -34,7 +39,7 @@ public class DefaultAuthMobileService implements AuthMobileService {
 			signId = SmsSignId.huayiyun;
 			break;
 		default:
-			
+			signId = SmsSignId.huayiyun;
 		}
 		String endMessage = "（有效期十分钟，请完成验证），如非本人操作，请忽略本消息";
 		String authNumber = NumberGenerate.authNumber();
