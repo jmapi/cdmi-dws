@@ -6,7 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import pw.cdmi.common.cache.CacheClient;
+import pw.cdmi.core.cache.CacheClient;
 import pw.cdmi.msm.sms.repository.AuthMobileRepository;
 
 
@@ -14,7 +14,7 @@ import pw.cdmi.msm.sms.repository.AuthMobileRepository;
 public class DefaultAuthMobileRepository  implements AuthMobileRepository{
 
 	@Autowired
-	private  CacheClient cachedClient;
+	private CacheClient cachedClient;
 	private static final Logger LOGGER = LoggerFactory.getLogger(DefaultAuthMobileRepository.class);
 	
 //	private  final String name = "sms_cache";
