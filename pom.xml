@@ -33,12 +33,29 @@
 			<groupId>pw.cdmi.box</groupId>
 			<artifactId>box-utils</artifactId>
 			<version>3.5.4-SNAPSHOT</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-web</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-webmvc</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-orm</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-api</artifactId>
+				</exclusion>
+				<exclusion>
+					<artifactId>log4j</artifactId>
+					<groupId>log4j</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
-		<dependency>
-    		<groupId>pw.cdmi.box</groupId>
-    		<artifactId>xmemcached</artifactId>
-    		<version>3.5.2.RELEASE</version>
-   		</dependency>
 		<dependency>
 			<groupId>io.servicecomb</groupId>
 			<artifactId>spring-boot-starter-registry</artifactId>
@@ -70,27 +87,17 @@
 		</dependency>
 		<!-- <dependency> <groupId>com.danga</groupId> <artifactId>java-memcached</artifactId> 
 			<version>2.6.3</version> </dependency> -->
-		<dependency>
-			<groupId>com.googlecode.xmemcached</groupId>
-			<artifactId>xmemcached</artifactId>
-			<version>2.0.0</version>
-		</dependency>
 
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-simple</artifactId>
-		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
-
 		</dependency>
 		<dependency>
-			<groupId>commons-pool</groupId>
-			<artifactId>commons-pool</artifactId>
-
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
 		</dependency>
-		<!-- <dependency> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-starter-data-mongodb</artifactId> 
+
+		<!-- <dependency> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-starter-data-mongodb</artifactId>
 			<scope>test</scope> </dependency> -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -133,12 +140,6 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-lang3</artifactId>
-			<version>3.4</version>
-		</dependency>
-
-		<dependency>
 			<groupId>smn</groupId>
 			<artifactId>cloud-java-sdk-smn</artifactId>
 			<version>2.0.2</version>
@@ -163,17 +164,6 @@
 			<groupId>com.github.ulisesbocchio</groupId>
 			<artifactId>jasypt-spring-boot-starter</artifactId>
 			<version>1.16</version>
-		</dependency>
-		<dependency>
-			<groupId>pw.cdmi.box</groupId>
-			<artifactId>wcc_crypt</artifactId>
-			<version>3.5.2.RELEASE</version>
-			<exclusions>
-				<exclusion>
-					<groupId>org.slf4j</groupId>
-					<artifactId>slf4j-log4j12</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 	</dependencies>
 
