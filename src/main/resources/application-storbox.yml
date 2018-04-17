@@ -14,7 +14,28 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: update
-   
+ 
+cache:
+  supported: true
+  
+  servers: 192.168.0.166;192.168.0.148;
+#    -172.16.16.101
+#    -172.16.16.102
+#    -172.16.16.103
+  port: 11211
+  
+  pool:
+    name: sms_cache
+    maxConnections: 50
+    socketTimeout: 2000
+    socketConnectTimeout: 60000
+    timeout: 600000
+    prefix: sms
+    binaryProtocal: true
+    aliveCheck: false
+    failback: true
+    failover: true
+    opTimeout: 30000 
 #配置日志
 logging:
   #配置日志文件路径

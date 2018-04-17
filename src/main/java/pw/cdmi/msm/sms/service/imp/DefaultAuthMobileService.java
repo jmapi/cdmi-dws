@@ -42,7 +42,8 @@ public class DefaultAuthMobileService implements AuthMobileService {
 			signId = SmsSignId.huayiyun;
 		}
 		String endMessage = "（有效期十分钟，请完成验证），如非本人操作，请忽略本消息";
-		String authNumber = NumberGenerate.authNumber();
+		String authNumber = NumberGenerate.authNumber();	
+		
 		sendMessageService.send(mobile, headMessage+authNumber+endMessage,signId);
 		authMobileRepository.save(mobile, authNumber);		
 	}

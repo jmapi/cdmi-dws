@@ -1,11 +1,12 @@
 package pw.cdmi.msm.sms.repository.imp;
 
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.Cache;
-import org.springframework.cache.Cache.ValueWrapper;
-import org.springframework.cache.CacheManager;
 import org.springframework.stereotype.Component;
 
+import pw.cdmi.common.cache.CacheClient;
 import pw.cdmi.msm.sms.repository.AuthMobileRepository;
 
 
@@ -13,29 +14,31 @@ import pw.cdmi.msm.sms.repository.AuthMobileRepository;
 public class DefaultAuthMobileRepository  implements AuthMobileRepository{
 
 	@Autowired
-	private CacheManager cacheManager;
+	private  CacheClient cachedClient;
+	private static final Logger LOGGER = LoggerFactory.getLogger(DefaultAuthMobileRepository.class);
 	
+//	private  final String name = "sms_cache";
 	@Override
 	public void save(String key, String value) {
-		Cache cache = cacheManager.getCache("msm-cache");
-		cache.put(key, value);		
+		boolean setCache = cachedClient.setCache(key, value);
+		if(!setCache){
+			LOGGER.error("DefaultAuthMobileRepository save error"+setCache+"  key:"+key);
+		}
+				
 	}
 
 	@Override
 	public void deleteObject(String key) {
-		Cache cache = cacheManager.getCache("msm-cache");
-		cache.evict(key);
-		
+		cachedClient.deleteCache(key);		
 	}
 
 	@Override
 	public Object getValue(String key) {
-		Cache cache = cacheManager.getCache("msm-cache");
-		ValueWrapper valueWrapper = cache.get(key);
-		if(valueWrapper==null){
+		Object object = cachedClient.getCache(key);
+		if(object==null){
 			return null;
 		}
-		return valueWrapper.get();
+		return object;
 	}
 
 	
