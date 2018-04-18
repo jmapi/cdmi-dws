@@ -1,5 +1,6 @@
 package pw.cdmi.msm.comment.service.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -43,8 +44,8 @@ public class CommentServiceImpl implements CommentService {
 		comment.setPraiseNumber(0);
 		comment.setCreateTime(new Date());
 		Comment save = commentRepsitory.save(comment);
-
-		send(save);
+		List<Comment> listComment = new ArrayList<Comment>();
+		send(save,listComment);
 		
 	}
 	
@@ -93,16 +94,28 @@ public class CommentServiceImpl implements CommentService {
 		
 	}
 
-	private void send(Comment comment) {
+	private void send(Comment comment,List<Comment> listComment) {
 		SupportTargetType fromName = SupportTargetType.fromName(comment
 				.getTargetType());
 		Comment comment2 = null;
+		//是该用户没有发送过消息
+		boolean juage = true;
 		if (fromName == null) {
 			throw new SecurityException("SupportTargetType is null");
 		}
-		if(!StringUtils.isBlank(comment.getOwnerId())&&!comment.getOwnerId().equals(comment.getUserAid())){
+		
+		Iterator<Comment> iterator = listComment.iterator();
+		while(iterator.hasNext()){
+			Comment next = iterator.next();
+			if(next.getOwnerId().equals(comment.getOwnerId())){
+				juage = false;
+			}
+		}
+		
+		if(juage&&!StringUtils.isBlank(comment.getOwnerId())&&!comment.getOwnerId().equals(comment.getUserAid())){
 			
 			messageService.createNotifyUserMessage(toNotifyUserMessage(comment));
+			listComment.add(comment);
 		}
 
 		comment2 = commentRepsitory.findOne(comment.getTargetId());
@@ -131,7 +144,7 @@ public class CommentServiceImpl implements CommentService {
 		switch (fromName) {
 			case Tenancy_Comment:
 
-				send(comment3);
+				send(comment3,listComment);
 				break;
 			default:
 				break;
