@@ -1,7 +1,5 @@
 package pw.cdmi.msm.comment.rs;
 
-import java.util.Date;
-
 import lombok.Data;
 
 @Data

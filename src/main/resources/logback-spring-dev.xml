@@ -25,6 +25,6 @@
     <!-- 可以指定包或者类 -->
 
     <root level="info">
-        <appender-ref ref="console" />
+        <appender-ref ref="rollingFile" />
     </root>
 </configuration>

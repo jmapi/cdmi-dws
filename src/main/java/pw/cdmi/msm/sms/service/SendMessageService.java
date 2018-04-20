@@ -2,5 +2,5 @@ package pw.cdmi.msm.sms.service;
 
 public interface SendMessageService {
 	
-	public void send(String mobile,String value,String SignId);
+	public int send(String mobile,String value,String SignId);
 }

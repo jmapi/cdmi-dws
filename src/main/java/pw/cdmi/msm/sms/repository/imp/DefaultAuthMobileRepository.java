@@ -29,7 +29,13 @@ public class DefaultAuthMobileRepository  implements AuthMobileRepository{
 
 	@Override
 	public void deleteObject(String key) {
-		cachedClient.deleteCache(key);		
+
+		try {
+			cachedClient.deleteCache(key);
+		} catch (Exception e) {
+			LOGGER.error("Cache detele key errer "+ key);
+			e.printStackTrace();
+		}
 	}
 
 	@Override

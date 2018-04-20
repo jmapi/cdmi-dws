@@ -20,7 +20,7 @@ public class DefaultAuthMobileService implements AuthMobileService {
 	
 	
 	@Override
-	public void sendMessage(String mobile,String headMessage,SignTypeSupper type) {
+	public int sendMessage(String mobile,String headMessage,SignTypeSupper type) {
 		
 		String signId = null;
 		if(type == null){
@@ -44,8 +44,9 @@ public class DefaultAuthMobileService implements AuthMobileService {
 		String endMessage = "（有效期十分钟，请完成验证），如非本人操作，请忽略本消息";
 		String authNumber = NumberGenerate.authNumber();	
 		
-		sendMessageService.send(mobile, headMessage+authNumber+endMessage,signId);
+		
 		authMobileRepository.save(mobile, authNumber);		
+		return  sendMessageService.send(mobile, headMessage+authNumber+endMessage,signId);
 	}
 
 	@Override
