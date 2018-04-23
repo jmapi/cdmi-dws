@@ -4,6 +4,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import io.vertx.core.json.JsonObject;
 import lombok.Data;
 
@@ -30,6 +33,7 @@ import pw.cdmi.msm.sms.service.AuthMobileService;
 @RestController
 @RequestMapping("/messages/v1")
 @ConfigurationProperties(prefix="MessageTemplates")
+@Api(value = "短信验证服务" ,description = "短信验证服务")
 @Data
 public class SendMessageResouce {
 	private  static Logger log = LoggerFactory.getLogger(SendMessageResouce.class);
@@ -38,6 +42,7 @@ public class SendMessageResouce {
 	private AuthMobileService authMobileService;
 	
 	@PostMapping("/sms/checkcode")
+	@ApiOperation(value = "发送短信" ,notes = "发送短信")
 	public @ResponseBody Map<String,Object> SendMessage(@RequestBody MsmRequest message){
 		
 		if(StringUtils.isBlank(message.getMobile())){

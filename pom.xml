@@ -26,14 +26,37 @@
         <servicecomb.version>0.5.0.B011</servicecomb.version>
         <druid.version>1.1.6</druid.version>
         <lombok.version>1.16.20</lombok.version>
+        <springfox-version>2.6.1</springfox-version>
     </properties>
 
     <dependencies>
+
+    <!--  swagger-->
         <dependency>
-            <groupId>pw.cdmi.box</groupId>
-            <artifactId>xmemcached</artifactId>
-            <version>3.5.2.RELEASE</version>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>${springfox-version}</version>
         </dependency>
+        <!--
+       <dependency>
+           <groupId>com.github.xiaoymin</groupId>
+           <artifactId>swagger-bootstrap-ui</artifactId>
+           <version>1.6</version>
+       </dependency>
+        -->
+       <dependency>
+           <groupId>io.springfox</groupId>
+           <artifactId>springfox-swagger-ui</artifactId>
+           <version>${springfox-version}</version>
+       </dependency>
+
+
+       <dependency>
+           <groupId>pw.cdmi.box</groupId>
+           <artifactId>xmemcached</artifactId>
+           <version>3.5.2.RELEASE</version>
+       </dependency>
+
         <dependency>
             <groupId>io.servicecomb</groupId>
             <artifactId>spring-boot-starter-registry</artifactId>
