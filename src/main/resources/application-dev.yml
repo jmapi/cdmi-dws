@@ -9,10 +9,7 @@ spring:
 #  data:
 #    mongodb:
 #      url: mongodb://test:123@localhost:27017/test
-  jpa:
-    show-sql: true
-    hibernate:
-      ddl-auto: update
+
 #      connection:
  #        CharSet: utf8mb4
 

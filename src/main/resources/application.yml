@@ -1,31 +1,18 @@
 spring:
   application:
     name: cdmi-dws-service
-  cache:
-    cache-name: msm-cache
-    guava.spec: maximumSize=500,expireAfterWrite=10m
-    encache:
-      config: 
   profiles:
-    active: @profileActive@
-    
- # redis:
- #   cluster:
- #     nodes: 
- #       - localhost:6379
-#  redis:
-#    database: 0
-#    host: localhost
-#    port: 6379
-#    password: 
-#    ssl: false
-#    timeout: 3000
-#    pool:
- #     max-active: 8
-#      max-wait: -1
-#      max-idle: 8
-#      min-idle: 0
-
+    active: dev
+  jpa:
+    properties:
+      hibernate:
+        dialect: pw.cdmi.config.MySQL5InnoDBDialectUtf8mb4
+    datasource:
+      druid:
+        connection-init-sqls: ["SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci"]
+    show-sql: true
+    hibernate:
+      ddl-auto: update
 MessageTemplates:
   templates:
     default: 你的验证码为：
