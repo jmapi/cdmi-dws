@@ -4,15 +4,12 @@ spring:
     username: root
     password: lijianjun
     driverClassName: com.mysql.jdbc.Driver
- #   connectionInitSqls: "SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci;"
+    connectionInitSqls: "SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci;"
 
 #  data:
 #    mongodb:
 #      url: mongodb://test:123@localhost:27017/test
-  jpa:
-    show-sql: true
-    hibernate:
-      ddl-auto: update
+
 #      connection:
  #        CharSet: utf8mb4
 
