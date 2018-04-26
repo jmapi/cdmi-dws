@@ -24,7 +24,7 @@ public interface CommentService {
      *
      * @param target
      */
-    public void commentObject(Comment comment);
+    public Comment createComment(Comment comment);
 
     /**
      * 获取对应目标的all评论

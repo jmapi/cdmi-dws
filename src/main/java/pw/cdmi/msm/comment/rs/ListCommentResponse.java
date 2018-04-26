@@ -8,9 +8,10 @@ import java.util.List;
 public class ListCommentResponse {
     private String id;
     private Owner owner;
-    private int  praiseNumber;
+    private long  praiseNumber;
+    private long  commentNumber;
     private String content;
     private String create_time;
-    private List<ListCommentResponse> nexts;
+    private List<ListCommentResponse> children;
 }
 

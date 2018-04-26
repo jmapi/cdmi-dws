@@ -27,9 +27,8 @@ public class CommentResourceImpl {
     @Autowired
     private CommentService commentService;
 
-
     @PostMapping
-    public void comment(@RequestBody CommentRequest comment) {
+    public @ResponseBody ListCommentResponse comment(@RequestBody CommentRequest comment) {
         // TODO Auto-generated method stub
         // 参数合法性检查
 
@@ -77,7 +76,7 @@ public class CommentResourceImpl {
                 throw new SecurityException();
         }
         log.info("create comment " + JSONObject.fromObject(comment).toString());
-        commentService.commentObject(comment2);
+        return toListCommentResponse(commentService.createComment(comment2));
     }
 
     /**
@@ -137,40 +136,48 @@ public class CommentResourceImpl {
      * @param maxcount
      * @return
      */
-    @GetMapping("{target_id}/commentAndnext")
+    @GetMapping("{target_id}/commentAndChildren")
     public List<ListCommentResponse> listCommentAndNext(@PathVariable("target_id") String id, @RequestParam("type") String type,
-                                                        @RequestParam("cursor") int cursor, @RequestParam("maxcount") int maxcount, @ApiParam(required = false) @RequestParam(name="nextmaxcount",required = false) Integer nextMaxCount) {
+                                                        @RequestParam("cursor") int cursor, @RequestParam("maxcount") int maxcount, @ApiParam(required = false) @RequestParam(name = "nextmaxcount", required = false) Integer nextMaxCount) {
         // TODO 参数合法性检查
         if (StringUtils.isBlank(id) || StringUtils.isBlank(type)) {
             // FIXME 修改为客户端必要参数缺失，请检查
             throw new InvalidParameterException("参数错误");
         }
         //二级评论显示数
-        if(nextMaxCount ==null){
+        if (nextMaxCount == null) {
             nextMaxCount = 4;
         }
         Comment comment = new Comment();
         comment.setTargetId(id);
         comment.setTargetType(type);
         comment.setAppId("test");
+
+
         Iterator<Comment> commentIterator = commentService.commentList(comment, cursor, maxcount);
         List<ListCommentResponse> listCommentResponses = new ArrayList<ListCommentResponse>();
+
+
         while (commentIterator.hasNext()) {
 
             Comment next = commentIterator.next();
             ListCommentResponse listCommentResponse = toListCommentResponse(next);
-
+            //查询子评论实体
+            Comment newcomment = new Comment();
+            newcomment.setTargetId(next.getId());
+            newcomment.setTargetType("Tenancy_Comment");
             //二级--
-            Iterator<Comment> towCommentIterator = commentService.commentList(next, 0, nextMaxCount);
+            Iterator<Comment> towCommentIterator = commentService.commentList(newcomment, 0, nextMaxCount);
 
-            List<ListCommentResponse> nexts = new ArrayList<ListCommentResponse>();
+            List<ListCommentResponse> children = new ArrayList<ListCommentResponse>();
 
-            while (towCommentIterator.hasNext()){
+            while (towCommentIterator.hasNext()) {
                 Comment towNext = towCommentIterator.next();
-                nexts.add(toListCommentResponse(towNext));
+
+                children.add(toListCommentResponse(towNext));
             }
             //----
-            listCommentResponse.setNexts(nexts);
+            listCommentResponse.setChildren(children);
             listCommentResponses.add(listCommentResponse);
 
         }
@@ -200,7 +207,11 @@ public class CommentResourceImpl {
     private ListCommentResponse toListCommentResponse(Comment comment) {
 
         ListCommentResponse response = new ListCommentResponse();
-
+        Comment newcomment = new Comment();
+        newcomment.setTargetId(comment.getId());
+        newcomment.setTargetType("Tenancy_Comment");
+        long commentNumber = commentService.countComment(newcomment);
+        response.setCommentNumber(commentNumber);
         response.setPraiseNumber(comment.getPraiseNumber());
         response.setContent(comment.getContent());
         java.text.SimpleDateFormat simpleDateFormat = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -219,7 +230,7 @@ public class CommentResourceImpl {
 
     //---------------------------test
     @PostMapping("/test")
-    public void testcomment(@RequestBody TestCommentRequest comment) {
+    public @ResponseBody ListCommentResponse testcomment(@RequestBody TestCommentRequest comment) {
         // TODO Auto-generated method stub
         // 参数合法性检查
 
@@ -255,8 +266,10 @@ public class CommentResourceImpl {
         comment2.setAppId("test");
         //包装点赞对象
 
-        commentService.commentObject(comment2);
-        log.info("Vtest create comment " + JSONObject.fromObject(comment).toString());
+        Comment save = commentService.createComment(comment2);
+
+        log.info("Vtest create comment " + JSONObject.fromObject(save).toString());
+        return toListCommentResponse(save);
     }
 
     @GetMapping("/comment/{id}")

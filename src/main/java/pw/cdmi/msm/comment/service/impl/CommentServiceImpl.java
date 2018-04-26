@@ -32,7 +32,7 @@ public class CommentServiceImpl implements CommentService {
     private MessageService messageService;
 
     @Override
-    public void commentObject(Comment comment) {
+    public Comment createComment(Comment comment) {
         comment.setPraiseNumber(0);
         comment.setCreateTime(new Date());
         Comment save = commentRepsitory.save(comment);
@@ -44,7 +44,7 @@ public class CommentServiceImpl implements CommentService {
             log.error("create comment errer "+ JSONObject.fromObject(comment).toString());
             e.printStackTrace();
         }
-
+        return save;
     }
 
     private NotifyUserMessage toNotifyUserMessage(Comment save) {
