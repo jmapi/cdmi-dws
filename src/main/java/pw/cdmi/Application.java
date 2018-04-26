@@ -2,6 +2,7 @@ package pw.cdmi;
 
 import org.jasypt.encryption.StringEncryptor;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.cache.annotation.EnableCaching;
@@ -11,7 +12,6 @@ import pw.cdmi.core.encryption.AesCBCEncryptor;
 
 @SpringBootApplication//(exclude={DataSourceAutoConfiguration.class})
 @ImportResource(locations = "classpath*:META-INF/spring/*.bean.xml")
-@EnableCaching
 public class Application {
     //自定义配置项解密类
 

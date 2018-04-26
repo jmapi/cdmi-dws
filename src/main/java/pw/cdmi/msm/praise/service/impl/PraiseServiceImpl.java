@@ -22,6 +22,7 @@ import javax.transaction.Transactional;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.UUID;
 
 @Component
 @Transactional
@@ -42,6 +43,7 @@ public class PraiseServiceImpl implements PraiseService {
         Praise save = null;
         try {
             save = praiseRepsitory.save(praise);
+            logger.info("save praise -t_praise_"+Math.abs(praise.getTargetId().hashCode()) % 100 + JSONObject.fromObject(save).toString());
             if (!StringUtils.isBlank(praise.getOwnerId()) && !praise.getOwnerId().equals(praise.getUserAid())) {
                 messageService.createNotifyUserMessage(toNotifyUserMessage(praise));
             }

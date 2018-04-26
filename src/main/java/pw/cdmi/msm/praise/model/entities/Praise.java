@@ -26,9 +26,12 @@ import pw.cdmi.share.model.MultiTenancy;
  */
 @Data
 @Entity
-@Table(name="t_praise",indexes = {
+@Table(name="t_praise"
+
+		,indexes = {
 		@Index(name  = "praise_1",columnList="target_id")
-})
+}
+)
 public class Praise implements MultiTenancy, MultiSite,MultiApplication{
 	@Id
 	@GenericGenerator(name = "system-uuid", strategy = "uuid")

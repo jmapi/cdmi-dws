@@ -27,7 +27,7 @@
         <druid.version>1.1.6</druid.version>
         <lombok.version>1.16.20</lombok.version>
         <springfox-version>2.6.1</springfox-version>
-        <sharding-jdbc-version>1.5.0</sharding-jdbc-version>
+        <sharding-jdbc-version>2.0.0</sharding-jdbc-version>
     </properties>
 
     <dependencies>
@@ -154,16 +154,11 @@
         </dependency>
         <!-- sharding-jdbc 分表-->
         <dependency>
-            <groupId>com.dangdang</groupId>
-            <artifactId>sharding-jdbc-core</artifactId>
-            <version>${sharding-jdbc-version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.alibaba</groupId>
-                    <artifactId>druid</artifactId>
-                </exclusion>
-            </exclusions>
+            <groupId>io.shardingjdbc</groupId>
+            <artifactId>sharding-jdbc-core-spring-boot-starter</artifactId>
+            <version>2.0.3</version>
         </dependency>
+
 
         <dependency>
             <groupId>smn</groupId>

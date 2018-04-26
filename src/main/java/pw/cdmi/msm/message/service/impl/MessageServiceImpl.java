@@ -57,8 +57,9 @@ public class MessageServiceImpl implements MessageService {
         NotifyUserMessage save = null;
         try {
             save = notifyUserMessageRepository.save(notifyUserMessage);
+            log.info("save  notifyuserMessage - soc_notify_user_message_" + Math.abs(notifyUserMessage.getNotifyAid().hashCode()) % 100 + JSONObject.fromObject(save).toString());
         } catch (Exception e) {
-            log.error("create notify user message errer "+ JSONObject.fromObject(notifyUserMessage).toString());
+            log.error("create notify user message errer " + JSONObject.fromObject(notifyUserMessage).toString());
             e.printStackTrace();
             return null;
         }
@@ -77,7 +78,7 @@ public class MessageServiceImpl implements MessageService {
         try {
             notifyUserMessageRepository.save(findOne);
         } catch (Exception e) {
-            log.error( "update notify user message status errer "+id);
+            log.error("update notify user message status errer " + id);
             e.printStackTrace();
         }
     }
@@ -87,7 +88,7 @@ public class MessageServiceImpl implements MessageService {
         try {
             notifyUserMessageRepository.delete(id);
         } catch (Exception e) {
-            log.error("delete notify user message errer "+ id);
+            log.error("delete notify user message errer " + id);
             e.printStackTrace();
         }
 
