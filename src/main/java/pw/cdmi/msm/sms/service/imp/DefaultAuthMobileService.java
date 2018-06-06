@@ -25,7 +25,7 @@ public class DefaultAuthMobileService implements AuthMobileService {
 		String signId = null;
 		if(type == null){
 			//默认
-			signId = SmsSignId.huayiyun;
+			signId = SmsSignId.jushu;
 		}
 		else
 		switch (type) {
